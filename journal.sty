@@ -1,0 +1,659 @@
+%================================ Environment =================================
+
+\newif \ifdraft
+%\draftfalse
+\drafttrue
+
+\newif \ifcompress
+\compressfalse
+%\compresstrue
+
+\newif \ifconf
+\conffalse
+%\conftrue
+
+\newif \ifcover
+\coverfalse
+%\covertrue
+
+\newif \iffigbb
+\figbbfalse
+%\figbbtrue
+
+\newif \ifgd
+\gdfalse
+%\gdtrue
+
+\newif \iftenpt
+%\tenptfalse
+\tenpttrue
+
+\newif \iftwoe
+%\twoefalse
+\twoetrue
+%------------------------------------------------------------------------------
+
+\ifcompress
+  \setlength{\topsep}{0in}   % space before first list item and after last
+  \setlength{\itemsep}{0in}  % space between items
+  \setlength{\abovedisplayskip}{0in}  % space above displayed formulas
+  \setlength{\belowdisplayskip}{0in}  % space below displayed formulas
+  \setlength{\textfloatsep}{.2in}  % space between figures and text
+  \setlength{\textwidth}{18cm}
+   \setlength{\textheight}{23cm}
+   \setlength{\oddsidemargin}{-1.5cm}
+  \setlength{\evensidemargin}{0.0cm}
+  \setlength{\topmargin}{-1cm}
+  \newcommand{\headadjust}{-.45in}  % space before the first section
+  \newcommand{\titleadjust}{0in}  % space before the title
+  \newcommand{\paradjust}{-.08in}
+  \newcommand{\secadjust}{-.11in}
+  \newcommand{\subsecadjust}{-.07in}
+  \newcommand{\figaboveadjust}{-.05in}
+  \newcommand{\figmidadjust}{-.05in}
+  \newcommand{\figbelowadjust}{-.05in}
+  \newcommand{\dateadjust}{-.25in}
+%  \newcommand{\secadjust}{-.15in}
+%  \newcommand{\subsecadjust}{-.08in}
+\fi
+
+%------------------------------------------------------------------------------
+
+
+\ifdraft
+  \setlength{\oddsidemargin}{-0.5in}
+  \setlength{\evensidemargin}{-0.5in}
+\fi
+
+\iffigbb
+  \psdraft
+\fi
+
+\usepackage{graphicx}
+\usepackage{epsf}
+\usepackage{fullpage}
+\usepackage{latexsym}
+
+%------------------------------------------------------------------------------
+
+\ifgd
+\else
+  \tolerance=10000
+
+  \renewcommand{\topfraction}{1.0}
+  \renewcommand{\bottomfraction}{1.0}
+  \renewcommand{\textfraction}{0.0}
+  \renewcommand{\floatpagefraction}{0.0}
+\fi
+
+%------------------------------------------------------------------------------
+
+\ifgd
+\else
+
+\ifdraft
+  \newcommand{\note}[1]
+  {\marginpar{\renewcommand{\baselinestretch}{0.8} \footnotesize \sf #1}}
+\else
+  \newcommand{\note}[1]{}
+\fi
+
+\ifdraft
+  \newcommand{\comment}[1]
+  {\par \noindent {\sf $\ast\ast\ast$ #1} \par}
+\else
+  \newcommand{\comment}[1]{}
+\fi
+
+\ifdraft
+  \newcommand{\todo}[1]
+  {\begin{quote} \small \sf #1 \end{quote}}
+\else
+  \newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\remove}[1]{}
+
+\fi
+
+
+%------------------------------------------------------------------------------
+
+\ifgd
+\else
+
+\newtheorem{claim}{Claim}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem{fact}{Fact}
+\newtheorem{lemma}{Lemma}
+\newtheorem{property}{Property}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+ 
+\newcommand{\qed}{\hspace*{\fill}$\Box$\ifmmode\else\par\addvspace\topsep\fi}
+ 
+%\newenvironment{proof}
+%{{\bf Proof:}}{\hspace*{\fill}$\Box$\par\vspace{2mm}}
+
+\newenvironment{proof}
+{\par \addvspace \topsep \noindent {\bf Proof:} \ignorespaces}{\qed}
+
+\newenvironment{sketch}
+{\par \addvspace \topsep \noindent {\bf Sketch~of~Proof:} \ignorespaces}{\qed}
+
+\newenvironment{compactlist}
+{\begin{list}
+{}
+{\setlength{\parskip}{\origparskip}
+\setlength{\itemsep}{0pt}}}
+{\end{list}}
+
+% The problem environment is for formatting things like problem definitions,
+% with unindented title, followed by hanging indents for instance and question.
+\newenvironment{problem}
+{\begin{compactlist}
+\item[] \hskip-\leftmargin \nopagebreak \ignorespaces}
+{\end{compactlist}}
+
+\fi
+
+%------------------------------------------------------------------------------
+
+% macro for a page with 6 figures arranged in a 3 x 2 grid
+
+%\newcommand{\chartbb}{bbllx=55pt,bblly=80pt,bburx=688pt,bbury=525pt}
+%\newcommand{\chartbb}{bbllx=80pt,bblly=80pt,bburx=765pt,bbury=530pt}
+
+\newcommand{\chartbbab}{bbllx=152pt,bblly=248pt,bburx=414pt,bbury=521pt}
+\newcommand{\chartbbcd}{bbllx=148pt,bblly=209pt,bburx=483pt,bbury=521pt}
+\newcommand{\chartbbef}{bbllx=157pt,bblly=59pt,bburx=599pt,bbury=510pt}
+
+\newlength{\chartsixw}
+\setlength{\chartsixw}{1.6in}
+
+%\newcommand{\chartsixitem}[1]{\psfig{file=#1,width=\chartsixw,clip=}}
+
+%\newcommand{\chartsixitemab}[1]{\psfig{\chartbbab,file=#1,height=\chartsixw}}
+%\newcommand{\chartsixitemcd}[1]{\psfig{\chartbbcd,file=#1,height=\chartsixw}}
+%\newcommand{\chartsixitemef}[1]{\psfig{\chartbbef,file=#1,height=\chartsixw}}
+
+\newcommand{\chartsixitemab}[1]{\psfig{file=#1,height=\chartsixw}}
+\newcommand{\chartsixitemcd}[1]{\psfig{file=#1,height=\chartsixw}}
+\newcommand{\chartsixitemef}[1]{\psfig{file=#1,height=\chartsixw}}
+
+\newcommand{\exarraythree}[3]{
+\small
+\ifgd
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{6em}} c @{\hspace{6em}} c }
+  \psfig{file=#1,height=2.25cm,clip=} &
+  \psfig{file=#2,height=2.25cm,clip=} &
+  \psfig{file=#3,height=2.25cm,clip=} \\ 
+  (a) & (b) & (c) \\
+  \end{tabular}
+  \end{center}
+\else
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{3em}} c @{\hspace{3em}} c }
+  \psfig{file=#1,height=3.3cm,clip=} &
+  \psfig{file=#2,height=3.3cm,clip=} &
+  \psfig{file=#3,height=3.3cm,clip=} \\ 
+  (a) & (b) & (c) \\
+  \end{tabular}
+  \end{center}
+\fi
+}
+
+\newcommand{\excoltwo}[5]{
+\small
+  \begin{center}
+  \begin{tabular}{ c }
+  \psfig{file=#2,width=#1,clip=} \\
+  (a) #3 \\
+  \psfig{file=#4,width=#1,clip=} \\
+  (b) #5 \\
+  \end{tabular}
+  \end{center}
+}
+
+\newcommand{\exrowtwo}[3]{
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{1em}} c }
+  \psfig{file=#2,width=#1,clip=} &
+  \psfig{file=#3,width=#1,clip=} \\  
+  \end{tabular}
+  \end{center}
+}
+
+\newcommand{\exarraysix}[6]{
+\small
+\ifgd
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{3em}} c }
+  \psfig{file=#1,height=3cm,clip=} &
+  \psfig{file=#2,height=3.3cm,clip=} \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (a) & (b) \\
+  \\
+  \psfig{file=#3,height=3.3cm,clip=} &
+  \psfig{file=#4,height=3.3cm,clip=} \\
+  (c) & (d) \\
+  \\
+  \psfig{file=#5,height=3.3cm,clip=} &
+  \psfig{file=#6,height=3.3cm,clip=} \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (e) & (f)
+  \end{tabular}
+  \end{center}
+\else
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{3em}} c @{\hspace{3em}} c }
+  \psfig{file=#1,height=3.3cm,clip=} &
+  \psfig{file=#2,height=3.3cm,clip=} &
+  \psfig{file=#3,height=3.3cm,clip=} \\ 
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (a) & (b) & (c) \\
+  \\
+  \psfig{file=#4,height=3.3cm,clip=} &
+  \psfig{file=#5,height=3.3cm,clip=} &
+  \psfig{file=#6,height=3.3cm,clip=} \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (d) & (e) & (f)
+  \end{tabular}
+  \end{center}
+\fi
+}
+
+\newcommand{\exarrayeight}[8]{
+\small
+\ifgd
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{3em}} c  }
+  \psfig{file=#1,height=3cm,clip=} & \psfig{file=#2,height=3cm,clip=} \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (a) & (b) \\
+  \\
+  \psfig{file=#3,height=3cm,clip=} & \psfig{file=#4,height=3cm,clip=} \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (c) & (d) \\
+  \\
+  \psfig{file=#5,height=3cm,clip=} & \psfig{file=#6,height=3cm,clip=} \\
+  (e) & (f) \\
+  \\
+  \psfig{file=#7,height=3cm,clip=} & \psfig{file=#8,height=3cm,clip=}  \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (g) & (h)  \\
+  \end{tabular}
+  \end{center}
+\else
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{3em}} c @{\hspace{3em}} c }
+  \psfig{file=#1,height=3.4cm,clip=} &
+  \psfig{file=#2,height=3.4cm,clip=} &
+  \psfig{file=#3,height=3.4cm,clip=} \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (a) & (b) & (c) \\
+  \\
+  \psfig{file=#4,height=3.4cm,clip=} &
+  \psfig{file=#5,height=3.4cm,clip=} &
+  \psfig{file=#6,height=3.4cm,clip=} \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (d) & (e) & (f) \\
+  \\
+  \end{tabular}
+  \end{center}
+  \begin{tabular}{ c @{\hspace{3em}} c }
+  \psfig{file=#7,height=3.4cm,clip=} & \psfig{file=#8,height=3.4cm,clip=}  \\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (g) & (h)  \\
+  \end{tabular}
+  \end{center}
+\fi
+}
+
+\newcommand{\exarraynine}[9]{
+\small
+\ifgd
+  \begin{center}
+  \hspace*{-.125in} \begin{tabular}{ c @{\hspace{1.5em}} c @{\hspace{1em}} c }
+  \psfig{file=#1,height=2.7cm,clip=} &
+  \psfig{file=#2,height=2.7cm,clip=} &
+  \psfig{file=#3,height=2.7cm,clip=} \\ 
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (a) & (b) & (c) \\
+  \\
+  \psfig{file=#4,height=2.7cm,clip=} &
+  \psfig{file=#5,height=2.7cm,clip=} &
+  \psfig{file=#6,height=2.7cm,clip=} \\ 
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (d) & (e) & (f) \\
+  \\
+  \psfig{file=#7,height=2.7cm,clip=} &
+  \psfig{file=#8,height=2.7cm,clip=} &
+  \psfig{file=#9,height=2.7cm,clip=} \\ 
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (g) & (h) & (i) \\
+  \end{tabular}
+  \end{center}
+\else
+  \begin{center}
+  \begin{tabular}{ c @{\hspace{3em}} c @{\hspace{3em}} c }
+  \psfig{file=#1,height=3.4cm,clip=} &
+  \psfig{file=#2,height=3.4cm,clip=} &
+  \psfig{file=#3,height=3.4cm,clip=} \\ 
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (a) & (b) & (c) \\
+  \\
+  \psfig{file=#4,height=3.4cm,clip=} &
+  \psfig{file=#5,height=3.4cm,clip=} &
+  \psfig{file=#6,height=3.4cm,clip=} \\ 
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (d) & (e) & (f) \\
+  \\
+  \psfig{file=#7,height=3.4cm,clip=} &
+  \psfig{file=#8,height=3.4cm,clip=} &
+  \psfig{file=#9,height=3.4cm,clip=} \\ 
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (g) & (h) & (i) \\
+  \end{tabular}
+  \end{center}
+\fi
+}
+
+\newcommand{\exarrayaddtwo}[2]{
+\small
+\ifgd
+  \begin{center}
+  \hspace*{.15in} 
+  \begin{tabular}{ c @{\hspace{3em}} c }
+  \psfig{file=#1,height=2.7cm,clip=} & \psfig{file=#2,height=2.7cm,clip=}\\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (j) & (k) \\
+  \end{tabular}
+  \end{center}
+\else
+  \begin{center}
+  \hspace*{.45in} 
+  \begin{tabular}{ c @{\hspace{3em}} c }
+  \psfig{file=#1,height=3.4cm,clip=} & \psfig{file=#2,height=3.4cm,clip=}\\
+  %\chartsixitemab{#1} & \chartsixitemab{#2} \\
+  (j) & (k) \\
+  \end{tabular}
+  \end{center}
+\fi
+}
+
+
+\newcommand{\dataarray}[2]{
+\small
+%\begin{center}
+\hspace*{-.25in}\begin{tabular}{cc}
+\psfig{file=#1,height=2.8in,width=4.25in,clip=} &
+\hspace*{-.24in} \psfig{file=#2,height=2.8in,width=2.5in,clip=} \\
+(a) & (b) \\
+\end{tabular}
+%\end{center}
+}
+
+\newcommand{\bi}{\begin{itemize}}
+\newcommand{\ei}{\end  {itemize}}
+\newcommand{\bt}{\begin{tabbing}}
+\newcommand{\et}{\end  {tabbing}}
+\newcommand{\be}{\begin{enumerate}}
+\newcommand{\ee}{\end  {enumerate}}
+\newcommand{\bl}{\hspace*{2mm}}
+\newcommand{\Bl}{\hspace*{5mm}}
+\newcommand{\BL}{\hspace*{10mm}}
+
+
+%------------------------------------------------------------------------------
+
+% macro for a page with 5 figures arranged in a 3 x 2 grid
+
+\newlength{\chartfivewidth}
+\setlength{\chartfivewidth}{2.5in}
+
+\newcommand{\chartfiveitem}[1]{\psfig{file=#1,width=\chartfivewidth}}
+
+\newcommand{\chartfivearray}[5]{
+\small
+\begin{center}
+\begin{tabular}{ c c }
+\chartfiveitem{#1} & \chartfiveitem{#2}\\
+(a) & (b) \\
+\\
+\chartfiveitem{#3} & \psfig{file=#4,width=2.9in} \\
+(c) & (d) \\
+\\
+\chartfiveitem{#5} \\
+(e)    
+\end{tabular}
+\end{center}}
+
+%------------------------------------------------------------------------------
+
+\newcommand{\chartbb}{}
+%\renewcommand{\chartbb}{bbllx=85pt,bblly=83pt,bburx=760pt,bbury=505pt}
+\renewcommand{\chartbb}{bbllx=85pt,bblly=83pt,bburx=760pt,bbury=525pt}
+\newlength{\chartw}
+\setlength{\chartw}{7.5cm}
+\newcommand{\charta}{}
+\renewcommand{\charta}{0}
+\newcommand{\charts}{Charts}
+
+%\newcommand{\chartitem}[1]{\psfig{figure=#1,width=\chartw,%
+%                                  angle=\charta,clip=}}
+\newcommand{\bbchartitem}[1]{\psfig{\chartbb,figure=#1,width=\chartw,%
+                                    angle=\charta%,clip=
+                                    }}
+
+\newcommand{\onebytwobb}[2]{
+  \small
+  \begin{center}
+    \begin{tabular}{ c c c }
+      \hspace*{.1in} \bbchartitem{#1} & \hfill & \bbchartitem{#2}
+%      (a)              & (b) \\
+    \end{tabular}
+  \end{center}
+  }
+
+\newcommand{\threebytwobb}[6]{
+  \small
+  \begin{center}
+    \begin{tabular}{ c c }
+      \bbchartitem{#1} & \bbchartitem{#2} \\
+%      (a)              & (b) \\
+      \\
+      \bbchartitem{#3} & \bbchartitem{#4} \\
+%      (c)              & (d) \\
+      \\
+      \bbchartitem{#5} & \bbchartitem{#6} \\
+%       (e)             & (f) \\
+    \end{tabular}
+  \end{center}
+  }
+
+% three figures, one centered above the other two
+\newcommand{\onebyoneplusonebytwobb}[3]{
+  \small
+  \begin{center}
+    \begin{tabular}{c}
+      \bbchartitem{#1} \\ 
+%      (a) \\
+    \end{tabular}
+
+    \vspace*{.16in}
+
+    \begin{tabular}{ c c }
+      \bbchartitem{#2} & \bbchartitem{#3} \\
+%      (b)              & (c) \\
+    \end{tabular}
+  \end{center}
+}
+
+%------------------------------------------------------------------------------
+
+\newcommand{\regem}[1]  {\mbox {\it #1\/}}
+
+\newcommand{\func}[2]   {\regem{#1}(#2)}
+
+\newcommand{\termnext}  {\regem{next}}
+\newcommand{\termprev}  {\regem{prev}}
+\newcommand{\termcorner}{\regem{corner}}
+\newcommand{\termturn}  {\regem{turn}}
+\newcommand{\termrot}   {\regem{rotation}}
+\newcommand{\termopp}   {\regem{opposite}}
+
+\newcommand{\termleft}  {\regem{left}}
+\newcommand{\termright} {\regem{right}}
+\newcommand{\termtop}   {\regem{top}}
+\newcommand{\termbottom}{\regem{bottom}}
+
+\newcommand{\termhchain}{\regem{hchain}}
+\newcommand{\termvchain}{\regem{vchain}}
+\newcommand{\ch}        {\regem{ch}}
+
+\newcommand{\oleft}     {<_x}
+\newcommand{\oxeq}      {=_x}
+\newcommand{\olefteq}   {\leq_x}
+\newcommand{\obelow}    {<_y}
+\newcommand{\oyeq}      {=_y}
+\newcommand{\obeloweq}  {\leq_y}
+
+\newcommand{\path}[2]   {#1 \rightarrow #2}
+\newcommand{\nopath}[2] {#1 \not \rightarrow #2}
+
+%\newcommand{\Hleft}{\overleftarrow{H}}
+%\newcommand{\Hright}{\overrightarrow{H}}
+%\newcommand{\Hleftcomp}{\overleftarrow{H}'}
+%\newcommand{\Hrightcomp}{\overrightarrow{H}'}
+
+%\newcommand{\Gammaleft}{\overleftarrow{\Gamma}}
+%\newcommand{\Gammaright}{\overrightarrow{\Gamma}}
+
+%\newcommand{\Gleft}     {G_{H_\ell}}
+%\newcommand{\Gright}    {G_{H_r}}
+\newcommand{\Gleft}     {G_\ell}
+\newcommand{\Gright}    {G_r}
+
+\newcommand{\Gcomp}     {\widehat{G}}
+%\newcommand{\Gleftcomp} {\widehat{G}_{H_\ell}}
+%\newcommand{\Grightcomp}{\widehat{G}_{H_r}}
+\newcommand{\Gleftcomp} {\widehat{G}_\ell}
+\newcommand{\Grightcomp}{\widehat{G}_r}
+
+\newcommand{\Hleft}     {H_\ell}
+\newcommand{\Hright}    {H_r}
+
+\newcommand{\Hleftcomp} {\widehat{H}_\ell}
+\newcommand{\Hrightcomp}{\widehat{H}_r}
+
+\newcommand{\Gammaleft} {\Gamma_\ell}
+\newcommand{\Gammaright}{\Gamma_r}
+
+\newcommand{\Hx}        {H_x}
+\newcommand{\Hy}        {H_y}
+
+\newcommand{\Gx}        {G_x}
+\newcommand{\Gy}        {G_y}
+
+\newcommand{\Dx}        {D_x}
+\newcommand{\Dy}        {D_y}
+
+\newcommand{\lsat}      {\sigma(\Gleft)}
+\newcommand{\neglsat}   {\overline{\sigma}(\Gleft)}
+\newcommand{\rsat}      {\sigma(\Gright)}
+
+\newcommand{\mhc}       {\regem{mhc}}
+\newcommand{\mvc}       {\regem{mvc}}
+
+\newcommand{\LLtrans}{LL}
+\newcommand{\LStrans}{LS}
+\newcommand{\SLtrans}{SL}
+\newcommand{\SStrans}{SS}
+
+%------------------------------------------------------------------------------
+
+\newcounter{appcount} \setcounter{appcount}{0}
+\newcounter{acount} \setcounter{acount}{0}
+
+\newcommand{\appcmd}[3]{
+  \stepcounter{appcount}
+  \ifconf
+    \newcommand{#1}{\bigskip \stepcounter{acount}
+                    \noindent {\large \bf A.\arabic{acount}~~{#2}}
+                    \smallskip
+                    \noindent #3}
+    \vspace{-3pt}
+    \noindent {\sf [Sketch of proof in Appendix~A.\arabic{appcount}]}
+    \smallskip
+  \else
+    #3
+  \fi
+}
+
+\newcommand{\emptyappcmd}[3]{
+  \stepcounter{appcount}
+  \ifconf
+    \newcommand{#1}{\bigskip \stepcounter{acount}
+                    \noindent {\large \bf A.\arabic{acount}~~{#2}}
+                    \smallskip
+                    \noindent #3}
+  \else
+    #3
+  \fi
+}
+
+\newcommand{\otherappcmd}[4]{%
+  \stepcounter{appcount}%
+  \ifconf
+    \newcommand{#1}{\bigskip \stepcounter{acount}
+                    \noindent {\large \bf A.\arabic{acount}~~{#3}}
+                    \smallskip
+                    \noindent #4}%
+    We give in Appendix~A.\arabic{appcount} #2.
+  \else
+    #4
+  \fi
+}
+
+%------------------------------------------------------------------------------
+
+% Environments for writing procedures and algorithms
+% Both of them use the environment nested, which in
+% turn uses row.
+
+\newenvironment{Procedure}[1]{{\bigskip \noindent \hspace*{15pt}
+{\bf procedure} {\sf #1}\/}\begin{list}{}{\setlength{\topsep}{0pt} 
+\setlength{\itemsep}{0pt}  \setlength{\parsep}{2pt}}}{\end{list}
+{\hspace*{15pt} {\bf end} procedure.}}
+
+\newenvironment{Algorithm}[1]{\bigskip \noindent \hspace*{15pt}
+{{\sf \bf Algorithm} {\sf #1}\/}\begin{list}{}{\setlength{\topsep}{0pt} 
+\setlength{\itemsep}{0pt}  \setlength{\parsep}{2pt}}}{\end{list}
+{\vspace*{15pt} \hspace*{15pt} {\sf \bf end} {\sf Algorithm.}}}
+
+\newenvironment{nested}{\begin{list}{}{\setlength{\topsep}{0pt} 
+\setlength{\itemsep}{0pt} 
+\setlength{\parsep}{2pt}}}{\end{list} } 
+
+\newcommand{\row}{\item}
+
+\newcommand{\cif} {{\bf if}}
+\newcommand{\cotherwise} {{\bf otherwise}}
+\newcommand{\cthen} {{\bf then}}
+\newcommand{\celse} {{\bf else}}
+\newcommand{\celseif} {{\bf else if}}
+\newcommand{\cfor} {{\bf for}}
+\newcommand{\cforeach} {{\bf for each}}
+\newcommand{\cdo} {{\bf do}}
+\newcommand{\cwhile} {{\bf while}}
+\newcommand{\crepeat} {{\bf repeat}}
+\newcommand{\cuntil} {{\bf until}}
+\newcommand{\cbegin} {{\bf begin}}
+\newcommand{\cend} {{\bf end}}
+\newcommand{\ccbeg} {{\bf (}}
+\newcommand{\ccend} {{\bf )}}
+

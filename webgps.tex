@@ -1,0 +1,1516 @@
+
+\documentclass[10pt,psfig]{article}
+\input{journal.sty}
+%\documentclass{llncs}
+%\documentstyle[submission,fullpage,latexsym,epsfig]{article}
+%\documentstyle[latexsym]{llncs}
+%\usepackage{fullpage}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+
+\begin{document}
+
+\newif \iffull \fulltrue
+
+%\titlenote{RAST Web V\&D}}
+%\title{Alternate {\ttlit ACM} SIG Proceedings Paper in LaTeX
+%Format\titlenote{(Produces the WWW2007-specific release, location and
+%copyright information). For use with
+%www2007-submission.cls V1.4. Supported by ACM.}}
+%\subtitle{[Extended Abstract]
+%\titlenote{A full version of this paper is available as
+%\textit{Author's Guide to Preparing ACM SIG Proceedings Using
+%\LaTeX$2_\epsilon$\ and BibTeX} at
+%\texttt{www.acm.org/eaddress.htm}}}
+%
+% You need the command \numberofauthors to handle the "boxing"
+% and alignment of the authors under the title, and to add
+% a section for authors number 4 through n.
+%
+% Up to the first three authors are aligned under the title;
+% use the \alignauthor commands below to handle those names
+% and affiliations. Add names, affiliations, addresses for
+% additional authors as the argument to \additionalauthors;
+% these will be set for you without further effort on your
+% part as the last section in the body of your article BEFORE
+% References or any Appendices.
+
+%
+% Put no more than the first THREE authors in the \author command
+
+% NOTE: All authors should be on the first page. For instructions
+% for more than 3 authors, see:
+% http://www.acm.org/sigs/pubs/proceed/sigfaq.htm#a18
+
+\title {WebGPS: A Real-time Interactive Web Visualization System}
+
+\author{Adrian Rusu\\
+        Department of Computer Science\\
+        Rowan University\\
+        Glassboro, NJ 08028 USA\\
+        rusu@rowan.edu
+\and
+        Confesor Santiago\\
+        Dept. of Electrical and Computer Engineering\\
+        Rowan University\\
+        Glassboro, NJ 08028 USA\\
+        santia09@students.rowan.edu
+\and
+        Andrew Crowell\\
+        Dept. of Electrical and Computer Engineering\\
+        Rowan University\\
+        Glassboro, NJ 08028 USA\\
+        crowell57@students.rowan.edu}
+
+
+\date{}
+%\begin{document}
+
+\maketitle
+
+\begin{abstract}
+%The size of the World Wide Web (WWW) is unimaginable and growing at an exponential rate.
+%The structure of the World Wide Web can be modeled as a graph: the nodes are HTML pages, and a hyperlink from one page to another is represented as a directed edge. However, trees have much simpler structures than graphs, which make it easier to display trees in an aesthetically pleasing manner.
+%Although graphs may be most appropriate to represent the data on the Web, tree-based visualization makes Web surfing, Web searching, and tracking user navigation patterns simpler and thus less intimidating to regular Internet users.
+% and (v) the amount of resources needed from the host computer is limited. 
+%In addition, the tree-based rings engine used to create the visualization displays the information in a smaller area than previous systems, thus either taking smaller screen space or displaying more information to the user.
+
+%We use a crawler to retrieve information about the structure of certain Web regions and use
+%this information to create an area-efficient tree-like representation of the investigated Web region.
+%The novelty to our approach is the Web pages and visualization are presented in the same browser and are in-sync.
+%The crawling and drawing stages are done simultaneously, rather than sequentially, and depend on the actions of the user,
+%i.e the system does not need any pre-recorded data about Web-regions and provides a mapping visualization of the Web data {\em while} browsing the Web.
+
+%Although the World Wide Web is popularly referred to as "cyberspace", the extent to which it constitutes a space in the everyday sense of the word is questionable.
+%While looking for information on the Web, regular users are quickly lost in the cyberspace.
+%Hence, it is important that one be able to categorize, understand, and present Web data efficiently to the users.
+%In this paper we present a novel Web browsing and visualization method, called {\em WebGPS}, with an innovative combination of features: (i) Web data is retrieved and displayed in real-time (i.e. Web data is not pre-recorded), (ii) browsing and visualization are synchronized together in the same interface, (iii) tree-based visualization engine, and (iv) space-efficient display of visualization.
+%Our study shows that users are able to orient themselves better in cyberspace and locate Web pages of interest faster.
+%Even though in this paper we apply it on visualizing Web data, our method can be applied to portray any information hierarchy.
+
+An information hierarchy is a collection of relational information that is arranged in a ranking organization where each entity is subject to a single other entity, except for the top (root) element.
+The usefulness of a visualization of an information hierarchy depends on its capability of conveying the information quickly and clearly.
+While looking for information in information hierarchies, users can quickly become lost.
+Hence, it is important that one be able to categorize, understand, and present information hierarchies efficiently to the users.
+Furthermore, the interaction with the information hierarchy allows a user to further analyze its underlying structures and relationships, which is essential for the effectiveness of the visualization.
+In this paper we present a novel method to interactively visualize information hierarchies in real-time.
+We use the World Wide Web as an application example of our techniques.
+The result is a novel Web browsing and visualization method with an innovative combination of features: (i) Web data is retrieved and displayed in real-time (i.e. Web data is not pre-recorded), (ii) browsing and visualization are synchronized together in the same interface, (iii) tree-based visualization engine, and (iv) space-efficient display of visualization.
+Our study shows that users are able to orient themselves better in cyberspace and locate Web pages of interest faster.
+
+\end{abstract}
+
+\vspace{2em}
+\noindent
+{\bf keywords}: information hierarchies, visualization, real-time, interactive, synchronization
+\vspace{1em}
+
+% A category with only the three required fields
+
+\section{Introduction}
+\label{se:intro}
+
+%The World Wide Web (WWW) today has become an enormous source of information and more and more users have access to a steadily increasing number of Web pages, generally linked in a non-intuitive manner.
+%Consequently, repeatedly reported problems in WWW navigation are not knowing where you are, not knowing how to get back to previously visited information, and not knowing which sites have already been visited~\cite{eh-89, wls05}.
+%The problem of users' disorientation in the WWW, which emerges from the high complexity of the WWW environment, is often referred to as the "lost in cyberspace" problem.
+%It is widely agreed that navigation aids in form of maps can visualize the topological structure of the navigational space and can provide a thematic overview, thus supporting users' navigation task and reducing disorientation~\cite{cr-96,jh-02}.
+%A regular Web browser's back and forward functionality is a not a sufficient solution to this problem.
+%Effective Web visualizations, especially for navigation and search, must cope with such problems, automatically, and if they are to be used as modes of navigation and query, need to be interactive, so that territory and map become one~\cite{atlas}.
+%A map (visualization) reduces the user's cognitive load because it abates the load on human long term and
+%working memory, summarizing the information about the structure and organization that would otherwise have to be remembered~\cite{a-97, cr-96,jh-02, hsc-97, w-91}.
+Information hierarchies are commonly used in a variety of areas such as file systems, hierarchies of object-oriented programs, social networks,
+bibliographies, and structures of the World Wide Web (WWW).
+Since each node in an information hierarchy has a certain level of detail, it is important for the user to interact with the information and be able to investigate further inside the hierarchy, while at the same time be guaranteed that the information is up to date.
+In some cases a node may have too much information to display within the visualization of the hierarchy, thus a separate detail browsing window to display information may be required.
+The Web is an example of this case, and it is the data source with which we choose to experiment our visualization system.
+
+Extensive effort has been put in developing methods to visually represent information hierarchies.
+Treemaps~\cite{bs-91}, Cone Trees~\cite{rms91}, Hyperbolic Tree~\cite{lrp-95}, 3D Hyperbolic Space~\cite{mb-95}, Navigational View Builder~\cite{mf-95}, Hy+\cite{hmv-95}, SpaceTree~\cite{pgb02}, Zoomology~\cite{hdrw-03}, and MoireGraphs~\cite{km-03} are some of the methods specifically designed to represent information hierarchies.
+In an effort to improve navigation and browsing through the WWW, HyperSpace~\cite{wdbh-95}, Pad++~\cite{b96}, HotSauce~\cite{g02}, Natto~\cite{sm97}, Ptolomaeus~\cite{blv98}, MAPA~\cite{dk98}, Disk Trees~\cite{cpmpg-98}, VISVIP~\cite{cs-99}, WebTracer~\cite{webtracer}, Dome Trees~\cite{cpp-00}, XML3D~\cite{rcmc-00}, and MemoSpace~\cite{wls05} are some methods that have been applied to Web data.
+
+
+%However, very few of these methods have been adopted and are currently being used as viable solutions to the "lost in cyberspace" problem.  
+
+
+%We explain reasons for this in Section~\ref{se:other}.
+
+%{\bf {\em Possible omit***}}Reasons may include requiring a large amount of resources from the host computer (Natto, MemoSpace, HotSauce, MAPA, Navigational View Builder, WebTracer), unaesthetical drawings (Ptolomaeus, MoireGraphs), inefficient use of screen space (Pad++, SpaceTree, Hyperbolic Tree), and being counterintuitive to how humans perceive relational information (Treemaps).{\bf {\em ***}}
+
+In this paper, we introduce a novel method to browse and visualize information hierarchies, with the following innovative combination of features:
+
+\begin{itemize}
+
+\item {\em Real-time}: %As opposed to previous methods, which use pre-recorded information to generate visualizations,
+Our system retrieves and displays information in real-time, allowing the visualization to be continuously refined as more information become available.
+
+\item {\em Synchronization}: %As opposed to previous methods, which either are stand-alone visualizations or use a separate Web browser to display Web pages
+Our system integrates browsing and visualization together, synchronized in the same interface.
+Integration and synchronization of the interfaces helps address the cognitive overload of the user when investigating information hierarchies.
+
+\item {\em Tree-based engine}: Humans perceive relational information easier if it is modeled as a graph~\cite{dett-gd-99} (tree).
+The typical data structure for modeling hierarchical information is a tree whose vertices represent entities and whose edges correspond to relationships between entities.
+Our system uses a tree-based visualization engine, which makes it faster to generate aesthetically pleasing displays of trees.
+
+\item {\em Space-efficient}: Providing space-efficient visual representations of large information hierarchies (i.e. the World Wide Web) is of utmost importance given the limited space available on a computer monitor~\cite{rahj04}.
+Providing more information in a visualization (and thus minimizing the white space) is recommended, as the human brain is capable of filtering the information~\cite{t-01}.
+Our system uses a tree-based rings engine to generate the visualization, which maximizes the data-ink ratio and uses smaller area than previous systems by having high data density, thus allowing the user to either see more information in the same area, or to display the same amount of information in a smaller portion of the screen.
+
+%\item {\em Limited resources}: Previous non-graph-based methods require a significant amount of resources from the host computer. Given the diversity of Web users, it cannot be assumed that most own computers with such capabilities. Our method requires limited resources, thus making it simpler for the regular Web users to accept and use our system.
+
+\end{itemize}
+
+A user study confirmed that we found the right combination of features to provide a practical solution to the "lost in cyberspace" problem.
+
+Regular Internet users take less than 1 second to evaluate a Website and decide whether or not to stay and browse~\cite{mw-04}, hence the quality of a Website's design is an important factor in how desirable the Website is to regular Internet users.
+Much research exist in the development of effective Web design practices, systems that analyze regular Internet users' browsing patterns, and evaluate Website usability~\cite{w-02, ih-02}.
+{\em WebGPS} also helps Website designers to better design and present the information in their Website, by visually analyzing their design in real-time; hence, improving Website {\em "stickiness"} (i.e. increasing the noticeability and minimizing the time spent in locating information on their Website.)
+
+The rest of the paper is organized as follows.
+In Section~\ref{se:system}, we present our Web browsing and visualization system in detail.
+%In Section~\ref{se:vizEng}, we present the engine of our visualization.
+%We describe our techniques for interactively exploring our visualization in Section~\ref{se:animation}.
+%We detail our labeling method in Section~\ref{se:labels}.
+We discuss the real-time and synchronization features in Section~{\ref{se:real-time} and~\ref{se:synch}, respectively.
+%We describe how we implemented our system in Section~\ref{se:implementation}.
+In Section~\ref{se:other}, we discuss other approaches to the "lost in cyberspace" problem and identify their drawbacks.
+Next, we distinguish the different users of our system in Section~\ref{se:users}.
+We present the outcome of our user study in Section~\ref{se:user_study}.
+In Section~\ref{se:new_features}, we present additional features implemented resulting from the user study.
+Finally, we conclude and describe future work in Section~\ref{se:conc}.
+
+%\section{The Need}
+%\label{se:need}
+
+%As mentioned in Section~\ref{se:intro}, in this paper we propose a novel solution to the lost in cyberspace problem.
+%Regular Internet users get lost in cyberspace because they have no idea what to expect (no context).
+%In addition, there does not exist a consistent, standard methodology for organizing distinct Websites and the users of the Web suffer from information overload because they have the option of too many Web pages to visit~\cite{a-97}.
+%A ``lost in cyberspace'' scenario could be as simple as the following:  a user, while browsing the Web, proceeds from {\em Website A} (See Figure~\ref{fig_generic}(a)) when finding an interesting link to {\em Website B} (See Figure~\ref{fig_generic}(b)).
+%While at {\em Website B}, the user finds another another interesting link.
+%This takes the user to {\em Website F} (See Figure~\ref{fig_generic}(c)) where the user browses and chooses another link.
+%The user continues to {\em Website J} (See Figure~\ref{fig_generic}(d)), and at this point, the user wants to go back to where she started and wonders where she was when she originally started browsing.
+%The user can use the back option and gauge her location, but there is no context to this method.
+%Our system aids in minimizing the frequency of this scenario and is intended to provide a mapping of the location within the cyberspace which is interesting to the user.
+
+%\begin{figure}[bh]
+%\centering
+%\includegraphics[width=2in]{genericLost}
+%\caption{``Lost in cyberspace'' scenario}
+%\label{fig_generic}
+%\end{figure}
+
+%Another ``lost in cyberspace'' scenario can occur when using the back and forward functionality of a Web browser.  
+%The scenario is the following: a user starts at {\em Website A},  then proceeds to {\em Website B}.
+%After finding no desired links, the user clicks back to return to {\em Website A}.
+%Now, the user chooses {\em Website C}, and after failing to discover interesting information, returns back to {\em Website A}.
+%With the back and forward functionality, the user can traverse backwards and forwards in their browsing history, but in this scenario after going to {\em Website C},
+%{\em Website B} escapes the forward traversal Web browsing functionality, nor does it appear in the drop-down list that contains pages recently visited.
+
+%Also, the need for our solution exists in creating a more efficient method of Web browsing.
+%Better efficiency is established by the creation of {\em ``browsing into the future.''}
+%Our solution exposes future Web pages ({\em browsing into the future}), deriving from a starting Web page, without the user having to navigate through the Web pages.
+
+%In addition, Google is extremely successful at guiding the regular Internet user to a desired Website.  Usually this Website is unfamiliar to the regular Internet user, 
+%hence the reason why a search engine was needed.
+%Once the regular Internet user is at the Website, Google served its purpose, but the regular Internet user could still encounter the "lost in cyberspace" problem.
+%Therefore, our solution could extend the strengths of Google (taking the user to a specific area of the WWW) by helping the regular Internet user navigate through different Web pages deriving from the Website and find information easier, and by providing a Web visualization that can answer the questions stemming from the "lost in cyberspace" problem. 
+%-----------------------
+%Our solution also compliments Google searches:
+%a regular Internet user can easily find the Website of his/her interest.  After the search, the user settles on a Website.  Moreover, Google is greatly successful at bringing a regular Internet user to a desired Website, but Google does not provide a clear solution to efficiently navigate within a Website.  In addition to Google's technology, our solution aids the user, 
+%once at a desired Website, the user has a clearer understanding of the Website and is able to locate desired information and other related information more efficiently. 
+
+\section{Our System}
+\label{se:system}
+
+{\em WebGPS} has been designed using free floating windows, therefore the user can move each window in a desired location, based on free space available, and minimize, maximize, or close windows.
+The browser is used to view Web pages in the WWW, and is located in the left part of Figure~\ref{fig_systemshot2}.
+The visualization of the particular area of interest in the WWW is located in the right part of Figure~\ref{fig_systemshot2}.
+A statistics window is also available for advanced users, and is located in the bottom right window of Figure~\ref{fig_systemshot2}.
+The parameters window offers advanced users the ability to modify {\em WebGPS} settings.
+It can be accessed from the Options menu which is located at the top of the browser, and is shown in Figure~\ref{fig_paramOpts}.
+
+We allow the advanced users to modify parameters which affect the Web crawler and the visualization generator.
+There are three categories of parameters: control parameters, aesthetic parameters, and the bias parameter.
+The control parameters influence the Web crawler of the system.
+The aesthetic parameters affect the appearance of the visualization.
+Lastly, the bias parameter has an effect on what type of Web pages to add to the visualization.
+%The parameters can be accessed from the Options menu which is located at the top of the browser.
+%The corresponding pop-up window is shown in Figure~\ref{fig_paramOpts}.
+The details of each parameter were discussed in Section~\ref{sss:crawler}.
+
+The statistics that describe {\em WebGPS} during run-time are defined as follows:
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=6.25in]{new_screenshot2}
+\caption{Screenshot of entire system}
+\label{fig_systemshot2}
+\end{figure}
+
+\begin{itemize}
+
+\item {\em Number of links}: The number of links located in the crawler both processed and not.
+
+\item {\em Number of processed links}: The number of processed links in the crawler.
+
+\item {\em Number of Idle Connections}: The number of established connections in the idle state (See Figure~\ref{fig_state}).
+
+\item {\em Number of Active Connections}: The number of established connections which are active or in the running state (See Figure~\ref{fig_state}).
+
+\item {\em Number of Nodes}: The current total number of nodes available in the visualization.
+
+\item {\em Links per Second}: The rate at which links are added to the crawler for processing.
+
+\item {\em Updating Tree State}: Indicates whether the visualization (tree drawing) is updating with new nodes.  Indicator is 'y' for in updating tree state and 'n' for not in the state.
+
+\item {\em Elapsed Time}: The time in seconds since the application was launched.
+
+\end{itemize}
+
+\subsection{Browser (Detailed Visualization Window)}
+\label{ss:browser}
+
+%The browser is located in the left part of Figure~\ref{fig_systemshot2}.
+Since our focus was on the visualization aspect, we have created a Web browser with only basic functionality.  
+More functionality could easily be added on top of the existing functionality.
+The user can enter a Web address in the provided textbox.  Upon entering an address, if valid, the page loads and shows as in any regular Web browser.
+%In addition, our browser includes a favorites list with capability to add and delete to this list.  
+Forward and back buttons are included to allow for traversal through already viewed pages.  
+%We discuss the implementation details of our Web browser in Section~\ref{se:implementation}.
+The user interface of the Web browser is created using the built-in Java Swing Toolkit.
+The displaying of Web pages is handled by the {\em HTMLDocument} class, and the interaction within the links in the Web page is controlled by the {\em HTMLFrameHyperlinkEvent} class.
+Back and forward functionality is controlled by a queuing structure that maintains a record of browsing history.
+
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=2.25in]{paramWindow3}
+\caption{Parameters Options Window.}
+\label{fig_paramOpts}
+\end{figure}
+
+\subsection{Crawler}
+\label{sss:crawler}
+
+The Web crawler we use in this application was developed by us and tailored to meet our system's requirements.  
+The main requirement of our crawler is to extract information as a tree.
+For each page the Web crawler encounters, the description, keywords, link addresses, and their label within the page are extracted, and stored in a tree data structure.
+Once the crawler is finished processing a Web page, the crawler extracts link addresses from Web pages found within this processed page.
+These results are stored in the parent tree data structure.
+This process is repeated for every Web page in the hierarchy until the crawler is halted based on the system's settings, hence an information hierarchy of Web data is generated.
+
+Similarly to SPHINX~\cite{mb98} Web crawler, we use a Java, multi-threaded approach in which Web pages are accessed by different threads.
+An advanced user can assign the maximum number of threads via {\em max threads} in the parameter window (See Figure~\ref{fig_paramOpts}).
+The default value of this parameter is 25.
+We limit the number of threads that can coexist in the system to not overcharge the processor.
+Furthermore, the number of Web links extracted from a Web page is controlled by the {\em children limit} parameter.
+%Since our visualization can handle large sized trees, the user can limit the amount of data represented by adjusting the {\em maximum children} parameter to preference. 
+Link extraction is performed sequentially, and crawling is terminated when the {\em children limit} parameter is met, 
+or the end of the Web page's HTML source is reached.
+To eliminate Web pages that may not be useful, the {\em page type ban} parameter allows the crawler to neglect specific Web page types. 
+In addition, if the {\em allow duplicates} parameter is true, the crawler extracts all links found, otherwise the user can manipulate the {\em duplicate release number} parameter, which allows duplicate Web pages to be extracted, but with one constraint.
+For example, if the {\em allow duplicates} parameter is false,
+the {\em duplicate release number} parameter is 2, and {\em Page XYZ} is found at depth 1, then {\em Page XYZ} can be re-extracted at depth 3 or below.
+If {\em Page XYZ} appears again at depth 3, it can not be re-extracted until depth 5.  This procedure is recursive as farther depths are encountered.
+%Duplicate links are eliminated, because, if included, less information is presented in the visualization, especially in the case of framed Websites. 
+%Furthermore, the crawler is halted at a depth denoted by the {\em max depth} parameter.
+%The {\em minimum radius} parameter controls the size of the smallest nodes rendered in the visualization.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=3.5in]{newState2}
+\caption{Web crawler state diagram. Here, $n$ represents the response time and $k$ represents the number of disconnected round trips allowed.}
+\label{fig_state}
+\end{figure}
+
+%The main problem needed to be resolved was the slow answering servers.  Some servers are slower to respond to the Web crawler.
+%Other servers do not respond at all. 
+%Being a real-time system, the visualization needs the information from the crawler without delay in order to be generated.
+%For this reason, we set up time limits in which a server has to respond.
+%This time limit is decided by the user through the combination of {\em response time} and
+%{\em disconnect round trip} parameters.
+Under the restriction of a real-time system, the information from the crawler needs to be extracted as fast as possible.
+In order to deal with slow and non-responsive servers, the user can assign a wait time limit through the combination of {\em response time} and {\em disconnect round trip} parameters.
+If the server does not respond, it is placed in a queue with other non-responsive and unprocessed links and served when a thread becomes available.
+%Next, the drawing algorithm will simply continue, assuming that the page that could not be retrieved is not active.  
+The visualization is updated with the crawler's findings at the rate denoted by the {\em update time} parameter.
+Links with slower connections are simply added to the visualization at this rate while the user is analyzing the new information.
+In Figure~\ref{fig_state}, we show the states and transitions between processing Web pages in our Web crawler.
+
+
+The performance of our Web crawler is dependent on the characteristics of the computer on which the system is being run, the Internet connection, the domains that are visited, and the amount of information being processed.
+While testing {\em WebGPS}, the Web crawler's performance averaged approximately 5 links processed/second.
+The results were obtained on a Pentium 4 computer running at 2.80GHz, with 512 MB RAM, and an Internet cable connection of 1Mb/sec.
+
+Our system could easily be adapted to future changes in Web technologies by simply modifying the algorithm that finds relevant information in each Web page.
+
+\remove{
+\subsection{User Interface}
+
+%The interface of {\em WebGPS} has been designed using free floating windows, therefore the user can move each window in a desired location, based on free space available, and minimize, maximize, or close windows.
+
+%In the left window we provide functionality for the user to control the visualization in the middle window.  
+%The location and focus of the visualization can be manipulated up, down, left, and right, by using the arrow buttons.  
+%Also, the user can zoom in and out by using the buttons labeled '+' and '-'.
+
+%Statistics that describe the system are located in the bottom right window of Figure~\ref{fig_systemshot2}.
+
+We allow the advanced users to modify parameters which affect the Web crawler and the visualization generator.
+There are three categories of parameters: control parameters, aesthetic parameters, and bias parameter.
+The control parameters influence the Web crawler of the system.
+The aesthetic parameters affect the appearance of the visualization.
+Lastly, the bias parameter has an effect on what type of Web pages to add to the visualization.
+%The parameters can be accessed from the Options menu which is located at the top of the browser.
+%The corresponding pop-up window is shown in Figure~\ref{fig_paramOpts}.
+The details of each parameter were discussed in Section~\ref{sss:crawler}.
+
+The statistics that describe {\em WebGPS} during run-time are defined as follows:
+
+\begin{itemize}
+
+\item {\em Number of links}: The number of links located in the crawler both processed and not.
+
+\item {\em Number of processed links}: The number of processed links in the crawler.
+
+\item {\em Number of Idle Connections}: The number of established connections in the idle state (See Figure~\ref{fig_state}).
+
+\item {\em Number of Active Connections}: The number of established connections which are active or in the running state (See Figure~\ref{fig_state}).
+
+\item {\em Number of Nodes}: The current total number of nodes available in the visualization.
+
+\item {\em Links per Second}: The rate at which links are added to the crawler for processing.
+
+\item {\em Updating Tree State}: Indicates whether the visualization (tree drawing) is updating with new nodes.  Indicator is 'y' for in updating tree state and 'n' for not in the state.
+ 
+\item {\em Elapsed Time}: The time in seconds since the application was launched.
+
+\end{itemize}
+}
+%The window located on the right of the bottom section of our system is used to provide important information to the user. 
+%It is split into three smaller windows based on different categories of information being displayed.
+%The top window is used to display the Web address of a node in the visualization over which the mouse is hovering.
+%When the mouse is hovering over a node in the visualization, the node changes its color to gray and its corresponding Web address appears in the window.
+%This communicates to the user to which Web page will the browser change if the hovered-node is clicked.
+%The middle window is used to provide messages to the user, such as errors and instructions.
+%Lastly, the bottom window stores a list of all the Web addresses that appear in the visualization.
+
+%The first field of the control parameters is {\em max threads}.  
+%Our crawler uses multi-threading, which allows it to connect to more than one server at a time, thus increasing its efficiency in gathering Hyper-Text Markup Language (HTML) source code for parsing.  
+%The second field of the control parameters, is {\em response time}, measured in milliseconds (ms).
+%The {\em response time} is the amount of time we allow for a thread to establish connection with a server.
+%Internet users identify access speed as one of the most common problems of Web browsing~\cite{pr-98}.
+%The usage of {\em response time} in our real-time system reduces the negative effect of slow access Web pages by skipping those which do not respond hastily. 
+%The next field of the control parameters is the number of {\em disconnect round trips} allowed.  To deal with non-responsive servers, we impose a limit to the number of aborts when trying to connect.  
+%For example, with a {\em response time} of $10,000$ ms (ten seconds), a thread attempts to establish connection with a server; 
+%upon ten seconds of idle and no connection, the thread retries.  
+%With a maximum {\em disconnect round trip} of three, the thread attempts to connect three times and upon the third failure, the server is aborted and the thread will 
+%try to establish connection with the next server.
+%The last field of the control parameters is {\em child limit}.
+%In the structure of a tree, nodes that proceed after another node are called children of that node.
+%In our application, a Web page can be viewed as a parent node with its children being represented as Web pages that can be reached from links within that parent Web page.
+%The {\em child limit} parameter is used by the crawler to extract a specific number of links per one Web page.
+%This allows the user to control the amount of information contained in the visualization.
+%A {\em child limit} of six means the crawler will try to connect to a maximum number of six links for each Web page.
+%This will create a visualization that has no more than six successors for each node in the tree.
+
+%The first field of the aesthetic parameters is {\em update time}.
+%The {\em update time} specifies at what time rate, in milliseconds, to refresh the visualization.
+%As the crawler proceeds with traversing through the WWW, more and more links are added to the visualization.
+%The data is made available to the user in the visualization with refresh based on {\em update time}.
+%The other field of the aesthetic parameters is {\em minimum radius}.
+%The {\em minimum radius} allows the user to set the radius of the smallest ring in the visualization.
+%This helps the user control the amount and the granularity of the information being displayed at one time in the visualization.
+
+%Complex information spaces such as the WWW are typically polluted with erroneous, redundant, and low
+%quality information units which obscure the information units of high value~\cite{a-97}.
+%Users of our system could attempt to avoid pollution by seeking information of high value and avoid links which would distract them.
+%The user could minimize the harms of Web pollution via the bias parameter.
+%The bias parameter includes the {\em page type ban} field alone.
+%The field for {\em page type ban} is implemented as a drop-down list where the user can add or delete entries.
+%The user can add entries to the list by entering text into the {\em page type ban} textbox which is located directly under the drop down list. 
+%({\em {\bf Note:} Textbox not shown in Figure~\ref{fig_paramOpts} since entire drop down list is present in the screen shot.})
+%Similarly, the user can delete from the page type ban list.
+%During the crawling process, all links from the page are extracted and processed.
+%While processing, the crawler neglects the type of links which exist in the page type ban list.
+%For example, with the {\em type ban field} containing {\em .pdf, .txt, .css, .ico, mailto, .jpg, .gif}, 
+%the links which have these specific filename extensions will be omitted during the Web crawling and retrieval state.
+%It is sometimes necessary to omit certain Web pages because only links to pictures or text documents, which in turn would create a ``dead-end'' since they would have no HTML source to parse and could not extract more links.  
+
+
+
+\subsection{Visualization}
+\label{ss:vis}
+
+%A tool which helps people assimilate, process and understand information is known as a ``cognitive prosthesis''~\cite{w-91}.
+%A map (visualization) reduces the user's cognitive load because it abates the load on human long term and
+%working memory, summarizing the information about the structure and organization that would otherwise have to be remembered~\cite{a-97, w-91}.
+%When browsing the WWW, a user's performance is significantly improved if an overview map of the structure of a particular area of interest
+%of the WWW is visually represented.
+%Furthermore, the study of~\cite{hsc-97}, supports mapping of a particular area in the WWW, referring to it as Web neighborhood clustering.
+
+%The visualization of the area which the user is browsing is represented as a tree and located in the top right side of Figure~\ref{fig_systemshot2}.
+We visualize the particular area of interest of the WWW using a tree structure.
+The Web page that appears in the browser is represented by the root node in the tree.
+A node's children are Web pages that can be accessed via links in the Web page for which that node represents.
+Hence, we model a WWW boundary as a hierarchical structure.
+Each circle in the visualization represents one node of the tree, which denotes a particular Web page in the WWW.
+A node's children are located inside of itself.
+We provide the {\em minimum radius} parameter to control the size of the smallest nodes rendered in the visualization (See Figure~\ref{fig_paramOpts}).
+%We display the information using tree-visualization techniques (described in detail in Section~\ref{se:vizEng}).
+%We describe how we implemented the visualization in Section~\ref{se:implementation}.
+The user interface of the visualization is also created using Java Swing.
+We use Java2D for all the graphics generated within the visualization.
+In addition, we use the Java AWT Event Toolkit to handle the user interaction with the visualization.
+
+%\subsubsection{Use of Color}
+
+%A color scheme is implemented in the generation of the visualization.
+%Color is an important compononet of information visualization.
+%The purpose of color in information displayal is to call attention to specific items, distinguish between classes of items, and increase the appeal of the visualization.
+%An attractive color scheme is used because poorly design color can be confusing, and visual clutter may be created.
+%Furthermore, using color in an superfluous manner can devalue the information.
+%The method to the color scheme is to avoid choosing a color that does not contrast well with the white background.
+%For every color, a luminance value can be computed.  The luminance equation is shown below:
+%We use the luminance equation (1) to compute the color of each node.  
+%When displaying a node in the visualization, the same color is applied to all of its children.
+
+%\begin{equation}
+% Luminance = (0.30*Red) + (0.59*Green) + (0.11*Blue)
+%\end{equation}
+
+%Here {\em Red}, {\em Green}, and {\em Blue} are a particular color's RGB values.
+%each with values between $0.0$ and $1.0$ (i.e. Brown equals {\em Red}=$0.59$, {\em Green}=$0.11$, and {\em Blue}=$0.08$.)
+%For good contrast, the difference between the luminance of background and foreground is set to be greater than 0.40.
+%The higher the difference, the more readable and easier to see the resulting visualization will be.
+%In this case, the background is always white, luminance value of 1.0.
+%When drawing a circle in the visualization, a color is chosen to apply to all of its children.
+%In choosing a color, a looping algorithm is developed to ensure a color that meets our luminance difference standard is used.
+%For example, brown has color values of {\em Red}=0.59, {\em Green}=0.33, and {\em Blue}=0.08.
+%So we have: {\em Y\_brown} = (0.30)*(0.59) + (0.59)*(0.33) + (0.11)*(0.08) = 0.3805.
+%Lumuninace different between white and brown is 1.0 - 0.3805 = 0.6195, therefore brown would be an acceptable color choice.
+
+\remove{
+\subsection{Visualization Engine}
+\label{se:vizEng}
+
+%\subsection{Graphs versus Trees}
+
+%Web pages on the Internet are usually categorized based on application, user requirement, and context. 
+%In order to effectively navigate the voluminous and expanding amount of information, it is important that designers and users of Web sites be able to track usage patterns and also recognize the structure in which Web data is organized. 
+%The structure of the World Wide Web can be modeled as a graph: the nodes are HTML documents, and a hyperlink from one document to another is represented as a directed edge. 
+%However, trees have much simpler structures than graphs, which makes it easier to display trees in an aesthetically pleasing manner. 
+Although graphs may be most appropriate to represent the data on the Web, tree-based visualization makes Web surfing, Web searching, Web design, and tracking user navigation patterns simpler, and thus, less intimidating to regular Internet users.
+In our system, we model the WWW as a general tree.
+Websites structured as broad shallow general trees offer many choices at each level.
+In contrast, Websites structured as narrow deep general trees require many clicks to get to the bottom level.
+Users prefer broad shallow general trees over narrow ones~\cite{mw-04}, thus most Websites are designed in this fashion.
+}
+
+\subsubsection{Tree Drawing Terminology}
+
+\begin{figure}[t]
+\centerline{
+%\begin{tabular}{l}
+\hspace{0.75in}
+{\includegraphics[width=1.2in]{straight-line}}
+{\includegraphics[width=1.5in]{polyline}}
+\hspace{0.5cm}
+{\includegraphics[width=0.90in]{non-planar}}\\
+}
+\hspace{4.75cm} (a)
+\hspace{3.5cm} (b)
+\hspace{2.6cm} (c)
+
+\caption{Various kinds of drawings of the same tree: (a)
+straight-line, (b) polyline, (c) non-planar.
+%Also note that the drawings shown in Figures~(a) and~(b) are upward drawings, whereas the drawing shown in Figures~(c) is not.
+The root of the tree is shown as a shaded circle, whereas
+other nodes are shown as black circles.}
+\label{fi:tree_examples}
+\end{figure}
+
+%A {\em simple Jordan curve} is a line that
+%does not cross over itself. 
+In this section, we introduce tree drawing terminology which will be used as part of the justification of the engine algorithm in Section~\ref{se:rings}.
+
+A {\em drawing} $\Gamma$ of a tree $T$
+maps each node of $T$ to a distinct point in the plane, and each
+edge $(u,v)$ of $T$ to a simple Jordan curve with endpoints $u$
+and $v$. $\Gamma$ is a {\em straight-line} drawing (See
+Figure~\ref{fi:tree_examples}(a)), if each edge is drawn as a single
+line-segment. $\Gamma$ is a {\em polyline} drawing (See
+Figure~\ref{fi:tree_examples}(b)), if each edge is drawn as a connected
+sequence of one or more line-segments, where the meeting point of
+consecutive line-segments is called a {\em bend}. 
+$\Gamma$ is a {\em planar} drawing if edges do not
+intersect each other in the drawing (for example, the drawings
+(a) and~(b) in Figure~\ref{fi:tree_examples} are planar drawings,
+and the drawing (c) is a non-planar drawing). 
+$\Gamma$ is a {\em grid} drawing if  all the nodes
+and edge-bends have integer coordinates. We assume the plane is
+covered by {\em horizontal} and {\em vertical channels} with unit
+distance between two consecutive channels. The meeting point of a
+horizontal and vertical channel is called a {\em grid-point}. Let
+$R$ be a rectangle with sides parallel to the $X$ and $Y$ axis,
+respectively. $R$ is the  {\em enclosing rectangle} of $\Gamma$ if
+it is the smallest rectangle that covers the entire drawing. The
+{\em area} of a grid drawing is defined as the number of grid
+points contained in its enclosing rectangle. The {\em aspect
+ratio} of a grid drawing is defined as the ratio of the length of
+the longest side to the length of the shortest side of its
+enclosing rectangle.
+$D$ is the {\em enclosing disc} of $\Gamma$ if it is the disc with the smallest radius that covers the entire drawing.
+The center of the enclosing disc is the intersection of the two diagonals of the enclosing rectangle within the enclosing disc.
+Figure~\ref{fig_enclosing_disc}(a) shows the enclosing rectangle inside the enclosing disc, and Figure~\ref{fig_enclosing_disc}(b) shows the enclosing disc inside the enclosing rectangle.
+We denote by $T[v]$, the {\em subtree} of $T$
+rooted at node $v$. $T[v]$ consists of $v$ and all the descendants
+of $v$.
+$\Gamma$ has the {\em subtree-separation}
+property if, for any two node-disjoint subtrees
+$T[u]$ and $T[v]$ of $T$, the enclosing discs of the drawings
+of $T[u]$ and $T[v]$ do not overlap with each other.
+In~\cite{cgkt-02}, the subtree-separation property is defined in terms of non-overlapping enclosing rectangles.
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=4.1in]{enclosing_disc3}
+\caption{Enclosing rectangle and enclosing disc of a tree drawing $\Gamma$: 
+(a) enclosing rectangle inside the enclosing disc, (b) enclosing disc inside the enclosing rectangle.}
+\label{fig_enclosing_disc}
+\end{figure}
+
+Planar drawings are normally easier to understand than non-planar
+drawings, i.e. drawings with edge-crossings. It is natural to draw
+each edge of a tree as a straight line between its end-vertices.
+Straight-line drawings are considered more aesthetically pleasing
+than polyline drawings. An experimental study of the human
+perception of tree drawings has concluded that minimizing the
+number of bends increases the understandability of drawings of
+trees~\cite{p-97, pcj-97, tdb-88}. Ideally, the
+drawings should have no edge crossings, i.e. they should be planar
+drawings, and should have no edge-bends, i.e. they should be
+straight-line drawings. The computer screen can be viewed as a
+grid of pixels placed at integer coordinates. It is therefore
+natural to consider grid drawings. Furthermore, we cannot discuss
+about the area of non-grid drawings (i.e. drawings that have the
+nodes placed at real coordinates), since, by placing the nodes
+closer or farther,  such a drawing can be scaled down or up by any
+value. Grid drawings guarantee at least unit distance separation
+between the nodes of the tree, and the integer coordinates of the
+nodes and edge-bends allow the drawings to be displayed in a
+(large-enough) grid-based display surface, such as a computer
+screen, without any distortions due to truncation and round-off
+errors.
+An aspect ratio is considered optimal if it is equal to 1.
+In addition, drawings with
+small area can be drawn  with greater resolution on a fixed-size
+page. The optimal use of screen space is achieved by minimizing
+the area of the drawing and by providing user-controlled aspect
+ratio.
+%---
+Focus+context~\cite{sb-94} is a style in which part of the
+information is presented in detail (the focus) while the rest is
+still available, but at a smaller size (the context). The
+subtree-separation property allows for a focus+context style
+rendering of the drawing, so that if the tree has too many nodes
+to fit in the given drawing area, then the subtrees closer to
+focus can be shown in detail, whereas those further away from the
+focus can be contracted and simply shown as filled-in discs.
+%Giving users control over the aspect ratio of a drawing allows
+%them to display the drawing in different kinds of display surfaces
+%with different aspect ratios.
+%Finally, it is important to minimize the
+%area of a drawing, so that the users can display a tree in as
+%small of a drawing area as possible.
+%----
+
+\subsubsection{Rings-Based Drawing Algorithm}
+\label{se:rings}
+
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=1.4in]{ringsGenEx}
+%\caption{Rings-Based Tree Drawing Algorithm}
+%\label{fig_rings1}
+%\end{figure}
+In our system, we model the WWW as a general tree.
+Websites structured as broad shallow general trees offer many choices at each level.
+In contrast, Websites structured as narrow deep general trees require many clicks to get to the bottom level.
+Users prefer broad shallow general trees over narrow ones~\cite{mw-04}, thus most Websites are designed in this fashion.
+
+Radial graph visualizations, introduced by~\cite{dett-gd-99, e-92}, locate the focus node at the center of the layout 
+and nodes connected to the focus node radiate outward on uniformly separated rings.
+Further implementations of radial layout are presented in~\cite{km-03, sz-00, yfdh-01}.
+We adapted the radial layout rings-based tree drawing algorithm of~\cite{tm02} to use as the engine of our system.
+In the original algorithm a tree is drawn as a circle with the root placed in the center, hence we call it {\em Rings}.
+%The algorithm establishes the geometrical plane step of interactive visualization~\cite{w-00}.
+The subtrees rooted at the children of the root are drawn recursively as circles placed in concentric rings around the 
+center of the circle to ensure efficient use of space.
+%An example of how {\em Rings} place the subtrees in concentric rings is shown in Figure~\ref{fig_rings1}.
+
+Moreover, balanced binary trees resemble shallow general trees, hence intuitively the performance of an algorithm on
+balanced binary trees is a good indication of their performance on shallow general trees.
+As established in~\cite{rjsc-06}, for balanced binary trees, {\em Rings} has very good performance on important aesthetics such as area, maximum and uniform edge length, angular resolution, distance of closest and farthest leaves, in comparison with other tree drawing algorithms.
+
+In the original {\em Rings} algorithm, the children of the root are divided into $N$ categories according to their size.  
+One ring is assigned to each category, so the outer rings consists of the ``largest'' trees while the inner circles consists of the ``smallest'' ones.  
+This way a tree containing more information is allocated more space.
+Because of this ordering the algorithm needs to know the entire tree before it can start generating the drawing (bottom-up).
+A similar placement strategy is used by Grokker~\cite{grokker}, which is a web-based tool used to visualize Web data based on the content relationships of user queries.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=2.5in]{geoRings2}
+\caption{Ringed circular layout of nodes.}
+\label{fig_geoRings}
+\end{figure}
+
+In order to increase the speed of displaying the information and hence to meet the constraints of a real-time system, 
+%Our goal is to produce the visualization in real-time, as mentioned in Section~\ref{ss:real-time}, hence a top-down drawing algorithm is needed.
+%In our adaptation, we move away from the methodology of organizing the rings based on tree sizes.
+we modified {\em Rings} by not organizing the subtrees based on their sizes, thus allowing the algorithm to start drawing the tree much sooner (top-down).
+The tradeoff is that our visualization is slightly less efficient than original version of {\em Rings} in terms of use of space, but allows for a much faster generation of the drawing.
+The outcome is a speed increase in visualization productivity which is very significant and unique to our system.
+We call our adaptation of the original {\em Rings} algorithm, {\em FastRings}.
+Another modification to the original {\em Rings} was in the arrangement of nodes inside the tree.  
+Since the size of a tree is not considered, all the nodes of the tree are considered to be equivalent.
+In our visualization, the best method of arranging the nodes is to draw them as close to the same size as possible for every depth in the tree, hence making the nodes appear visually equal.
+Our layout is different than 2-D Cone trees~\cite{rms91},  since, in our case, child nodes are completely contained by their parent node, and in 2-D Cone trees they are arranged outside, thus requiring more space.
+A new arrangement algorithm was developed to capture the requirements of {\em FastRings}.
+
+As mentioned above, {\em Rings} places circles corresponding to children in concentric rings around the center of the parent node~\cite{tm02}, as shown in Figure~\ref{fig_geoRings}.
+Connecting the centers of {\em n} equal circles placed in a ring makes an {\em n}-sided regular polygon.
+In Figure~\ref{fig_geoRings}, $\theta$ = $\pi$ / {\em n}, where {\em n} is the number of circles in a ring, and $\theta$ is in radians.
+A simple relationship can be derived between the number of children circles in the outermost ring and the percentage of area taken up by the ring.
+Next, {\em f(n)}, the fraction of the area left after {\em n} circles have been placed in the ring is given by~\cite{tm02}:
+
+\begin{equation}
+f(n) = \frac{(R_{2})^{2}}{(R_{1})^{2}} = \frac{(1-\sin{(\theta}))^{2}}{(1+\sin{(\theta)})^{2}} = \frac{(1-\sin{(\frac{\pi}{n})})^{2}}{(1+\sin{(\frac{\pi}{n})})^{2}}
+\end{equation}
+\label{rings_eq}
+
+Using the relationship in Equation (1), the number of children to be placed in each concentric ring can be determined.
+The new arrangement algorithm starts by calculating $N$, the total number of circles to be placed in the entire circle (all ring levels).
+Next, the algorithm finds the value {\em k}, the number of nodes to be placed in the outermost ring.  
+We find the value {\em k} by calculating which value of f($k$), where $k$ is an integer between \{$1,2,...,N$\}, has the smallest fractional difference to percentage of children used.
+For example, we want the percentage of space used in the ring to be as close as possible to the percentage of the total number of children used in that space (i.e. $k/N \approx$ f($k$)).
+We give pseudocode for determining {\em k}:
+
+\begin{Algorithm} {Find {\em k}} {\sf
+\vspace*{10pt}
+\row {\em Input:} The total number of nodes in the tree, $N$.
+\row {\em Output:} The number of circles to place in the outermost ring, $k$.
+\vspace*{10pt}
+\row minDifference = $INFINITY$;
+\vspace*{10pt}
+\row //Find the arrangement that results in the percent of nodes and area left after placement being the closest.
+\row  \cforeach\ number of node $i$ in $N$ \{
+\begin{nested}
+\row areaLeft = $f(i)$;
+\row nodesLeft = $1$ - ($i/N$);
+\vspace*{10pt}
+\row \cif\ \ccbeg\ areaLeft $<$ nodesLeft \ccend\ \cthen\ 
+\begin{nested}
+\row difference = nodesLeft - areaLeft;
+\end{nested}
+\row \celse\
+\begin{nested}
+\row difference = areaLeft - nodesLeft;
+\end{nested}
+\vspace*{10pt}
+\row \cif\ \ccbeg\ difference $<$ minDifference \ccend\  \{
+\begin{nested} 
+\row minDifference = difference ;
+\row kToReturn = $i$;
+\end{nested}
+\row \}
+\end{nested}
+\row    \}
+\row //Do not want one node left, so add to previous
+\row \cif\ ($N$-kToReturn) = 1 \cthen\ {\bf return} (kToReturn+1);
+\vspace*{10pt}
+\row {\bf return} kToReturn;
+} %end sf
+\end{Algorithm}
+
+
+Next, $k$ circles are placed in the outermost ring.  The rest of the children are placed in the same way in the inner rings.
+%Applying this algorithm at every level results in circle-size precision, based on precision in $k/N$ versus $f(k)$ (i.e. having percentage of number of nodes used equate to similar percentage of area used.)
+
+%This adaptation is one of the main advantages of using this algorithm.
+Only one level in advance is needed to produce a first drawing of a tree.  
+This drawing can be refined by filling up the circles drawn in the previous step once new information becomes available, and while the user is analyzing the current details.
+This new information allows the user to "browse into the future" because these Web pages, which appear deeper in the hierarchy, can be evaluated without having to load them in the Web browser.
+{\em FastRings} constructs a straight-line grid drawing, using a small amount of space with optimal aspect ratio.
+In addition, there are no edge crossings inside child nodes, the only crossings are with the edges that connect a parent to its children.
+Furthermore, {\em FastRings} achieves the subtree-separation property.
+%Furthermore, {\em Rings} is a focus+context algorithm, i.e. a part of the tree is presented in great detail while the rest of the tree is kept visible but with a lower degree of detail.  
+%The user has complete control of which data she wants to see more clearly.
+
+%Furthermore, {\em Rings} drawings are straight-line, but not planar.
+%{\em Rings} is an area-efficient tree drawing algorithm, and always generates drawings with optimal aspect ratio (equal to 1).
+
+Our experiments show that {\em FastRings} increases the speed of constructing entire drawings by 51\%, and is $12$ times faster in producing first drawings in comparison to {\em Rings}.
+
+Hence, given all these advantages, and the limited number of disadvantages, {\em FastRings} qualified as the best choice for the tree drawing algorithm used
+as the engine of our visualization, allowing for the fast representation of large Web-areas without generating huge maps that are hard to follow.
+
+\subsubsection{Navigation Strategy}
+\label{se:animation}
+
+An interactive visualization is needed to have continuous exploration through visual mappings~\cite{w-00}.
+There are two important steps that are involved in the design of the interactive visualization:
+first map the relational data into a geometrical plane, and then establish a navigation strategy~\cite{nh-05}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=5.5in]{new_animation_states3}
+\caption{Procedures of the navigation strategy.}
+\label{fig_animate}
+\end{figure}
+
+In {\em WebGPS}, the initial focus is the tree with the root placed in the center of the main circle since that tree has the largest drawing area allocated.  
+%We provide the user with the ability to navigate the WWW from the focus through the visualization.
+We developed a novel navigation strategy to transition the focus of the visualization and allow the user to navigate the WWW.
+Some illustrative screen shots of how this animation is implemented in our system are presented in Figure~\ref{fig_animate}.
+The procedures of our navigation strategy are:
+
+%\begin{itemize}
+
+%\item {\em Figure~\ref{fig_animate}(a)}: The user selects a node (subtree) for focus change.  The selected node (subtree) is shaded gray.
+
+%\item {\em Figure~\ref{fig_animate}(b)}: The selected node is extracted from the parent node and magnified while the parent node shrinks.  The selected node is then located partially outside of the parent node.  In addition, the link between the two nodes is thickened to display history trail.
+
+%\item {\em Figure~\ref{fig_animate}(c)}: After the selected node reaches the size of the initial parent node, and the initial parent node reaches the size of the children in the new main node, space is made available in the lower right part of the new larger parent node. 
+
+%\item {\em Figure~\ref{fig_animate}(d)}: Once room inside the main node has been made available, the former parent, now shrunk, moves to the newly created space.  
+
+%\item {\em Figure~\ref{fig_animate}(e)}: The movement within the visualization is animated and the former parent is finally placed in the correct location.
+
+%\end{itemize}
+
+%/*** Pics ***/
+%The children of the new focus-node can now start populating with new information.
+%In this way, the user can navigate through the Web-tree, maintaining an overview on the global structure of the Web-area she investigates while having the possibility of investigate particular nodes more closely.
+
+\begin{itemize}
+
+\item {\em Step 1 - Node Selection}: The user selects a node (subtree/Web page) for focus change.  The selected node is shaded gray (See Figure~\ref{fig_animate}(a)).
+
+\item {\em Step 2 - Move Selected Node to Outermost Ring}: The closest positioned (in terms of distance) node in the next outer ring (next radial layout layer, Figure~\ref{fig_animate} shows three rings) is found and its position is swapped with the selected node.  This is repeated until the selected node is on the outermost ring.
+
+\item {\em Step 3 - Scale Up, Scale Down}: The selected node is extracted from the parent node and magnified (scaled up) to the size of the parent.  At the same time, the size of the parent is reduced (scaled down) to the size that will appropriately fit inside the selected node as a child.  In addition, the link between the two nodes is thickened to display the history trail (See Figure~\ref{fig_animate}(b)).
+
+\item {\em Step 4 - Make Space for Parent}: After the selected node and its parent are scaled to their suitable sizes (See Figure~\ref{fig_animate}(c)), space is made available inside the selected node to place the parent node.  If space is available inside the selected node, the parent is moved to that location.  If space does not exist, the nodes inside the innermost ring are scaled to a specific smaller size and bunched together in a fashion that allows space for one more node in the ring.  After space is made available inside the ring, the closest node inside the next outer ring is moved to the newly created space.  This is repeated until space for the parent node is made available inside the outermost ring (See Figure~\ref{fig_animate}(d)). 
+
+\item{\em Step 5 - Place Parent in Newly Allocated Space}: Now that space is available for the parent node, we calculate the position of the free space.  Next, we move the parent node to the free space (See Figure~\ref{fig_animate}(e)).
+
+\item{\em Step 6 - Move Selected Node To Center}: The transition within the visualization is complete.
+Finally, the selected node is moved to the center of its window, and it becomes the new focus.
+The Web crawler starts crawling the new child nodes that are in focus and the user can continue browsing and navigating.
+
+\end{itemize}
+
+In support of the navigational functionality, we color-code the parent node during the animation, in order to avoid the user loosing familiarity with the visualization during the navigation process.
+We have also employed a two-group gray-shading method to distinguish chronological browsing order.
+The most recent visits appear as black thickened edges, and older visits appear as gray thickened edges.
+%Hence, darker shades denote more recent visits and lighter shades represent older visits.
+Also, vectored edges are used to reveal the direction in which the user has browsed from one node to another (See Figure~\ref{fig_animate}).
+Vectored edges are used only when the user sets the {\em use direction arrow} parameter in the Parameter Options Window shown in Figure~\ref{fig_paramOpts}.
+
+%\subsection{Advantages of Choosing Rings}
+
+%We analyzed several algorithms before choosing to adapt {\em Rings} as the drawing algorithm for our system.  
+%Although other algorithms may have performed better under normal tree-drawing conditions, we thought that our adaptation of {\em Rings} was the best choice for displaying a real-time generated tree while still meeting the most important aesthetic demands.
+
+%In our system, the visualization models the WWW as a general tree.  
+%A general tree is a data structure where each node can have an unlimited number of subtrees (nodes).  
+%For our visualization engine, it is important that area is minimized and aspect ratio is optimized, therefore we needed a tree drawing algorithm which perform best on these aesthetics.  
+%A visualization which effectively meets these aesthetics provides a structure with more data, in an efficient-area, which does not deter the usability of the visualization.
+
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=3.4in]{newAnimation}
+%\caption{Scenario of the visualization animation}
+%\label{fig_animate}
+%\end{figure}
+
+%A bottom-up algorithm, such as original {\em Rings}, needs information about the entire structure of the tree to generate a drawing.
+%Algorithms of this nature can not handle real-time.
+%most important to our application.
+%This allows for the tree generation and drawing stages to run simultaneously, which is most important to our application.
+
+%{\em Rings} has also other important advantages.
+%It makes efficient use of screen space allowing for more distinguishable nodes to be displayed in the same area then all other drawing algorithms that have been previously used in Web visualizations.
+
+\subsubsection{Labeling Method}
+\label{se:labels}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=2.0in]{label_slot2}
+\caption{Example of different label slots for a node.}
+\label{fig_slots}
+\end{figure}
+
+
+A labeling technique is used to identify each children of the root node.
+The string used to identify each child Web page is the text used in the hyperlink, which can be found in the Web browser.
+A fixed height and width font is used to easily calculate the pixel dimension of the labels.
+The width of each label is restricted to a maximum width, in our case we choose three times the radius of the children.
+If the label is too lengthy, then it is shortened, and an etcetera is appended to the end, denoting that the label was shortened.
+Sometimes space within the visualization is limited, when labels are shortened to less than $25\%$ of their length, they are temporarily removed.
+Once the dimensions for each label are calculated, by default the labels are placed in the center "slot" of the upper half of each node.
+ An example of a node's label slots is shown in Figure~\ref{fig_slots}.
+
+Sometimes labels overlap in the default locations; therefore an algorithm was developed to avoid overlaps.
+The algorithm loops through every child of the root and checks for label overlapping with all the other children that appear within a specific distance apart.
+This distance is set up using the label maximum width.
+We know that for overlapping to exist, the distance between nodes has to be within the threshold we set up.
+In our case, only children that are within four times the radius of the node are compared.
+If overlap exists, we iterate through the available labels slots for that node and choose the first slot that does not overlap.
+We give pseudocode for the overlapping avoidance algorithm:
+
+\begin{Algorithm} {Overlapping avoidance label placement} {\sf
+\vspace*{10pt}
+\row {\em Input:} The total number of children, N.
+\row {\em Output:} The non-overlapping positions of the labels.
+\vspace*{10pt}
+\row Calculate the different label slots for each node;
+\row Place all labels at their default slots;
+\vspace*{10pt}
+\row  \cforeach\ child $i$ in $N$ \{
+\begin{nested}
+\row  \cforeach\ child $j$ in $N$ with processed label \{
+\begin{nested}
+\row \cif\ \ccbeg\ child($i$) is within $maxWidth$+$radius$(child($j$)) of child($j$) \ccend\ \{
+\begin{nested}
+\row \cif\ \ccbeg\ position of child($i$) and child($j$) labels intersect \ccend\ \{
+\begin{nested}
+\row Place child($i$) label at next available slot
+\row Mark child($i$) as processed
+\end{nested}
+\row \}
+\end{nested}
+\row \}
+\end{nested}
+\row \}
+\end{nested}
+\row \}
+} %end sf
+\end{Algorithm}
+
+With the combination of the fixed height and width font, capped label length, and different label slots, the above algorithm can align and place the labels in a manner that is legible; labels are not occluded.
+In addition, when the user hovers over a node, the node becomes gray-shaded and shows only one label.
+Also, when the user hovers over a node with a shortened label, the entire text for that label is displayed.
+
+Another way we advertise information about a certain node is through the labels in a text area located at the top of the visualization window (See Figure \ref{fig_systemshot2}).
+When the user hovers over a node, the node's corresponding Web address and title appears in this text area.
+Furthermore, if the Web page symbolized by the hovered node had a description and/or keywords, they are displayed in the text area as well.
+
+\section{Real-Time}
+\label{se:real-time}
+
+Several studies have been conducted to try to establish average change rates of different types of Web pages.
+The results show that more than 40\% of Web pages on commercial servers (.com) change on a daily basis~\cite{cg00}.
+Other domains, such as educational or governmental Websites, are less dynamic but still change over time.
+Effective visualization, especially for navigation and search, must be able to cope with such changes~\cite{atlas}.
+Hence, with this evolution, a method is needed to handle visualizing the constantly changing data in real-time (i.e. not using pre-recorded data).
+%Similar work, mentioned in~\cite{dfy-00}, describes the real-time interfacing and visualization of the persistently state altering Gnutella file sharing network.
+
+%Another important aspect is that of the time required to generate a tree by crawling the Web.
+%While building our system we found out that the Web-tree is much bigger than we initially thought.
+%Most pages have much more than 10 links deriving from them.
+%Now taking into consideration that only the most efficient crawlers manage to visit up to 100 links per second, and thus assuming that 20links/second on average, we can deduce constructing a 4 level tree with an average node-degree of 10 would take about a minute.
+%Adding one more level to that tree would bring us to about 10 minutes.
+
+The majority of previous Web visualization systems concentrate exclusively on the visual part of the problem using pre-recorded or human generated data sets as input.
+Those systems are, without doubt, valuable in showing how data can be visualized in an efficient way.
+However, displaying a data structure that is being generated in real-time implies serious constraints that most of the previous systems cannot meet.
+
+%In addition, previous systems use a bottom-up approach which is not meant to handle real-time demands.
+%They fail because the construction on the tree starts with the leaves of the tree and ends with the root.
+%Therefore, in this case, it is required that the information regarding the tree as a whole (i.e. number of leaves, depth of tree) or partial pre-processed portions of the tree be available to the algorithm.
+%Hence, it is not adequate for real-time display.
+
+Our system performs drawing and Web crawling simultaneously, offering partial results to the user as soon as possible.
+Also, we utilize the time the user spends reading the Web page for performing the Web crawling and tree generation.
+%One possible drawback is the amount of time {\em WebGPS} crawls the WWW depends on the user's speed in browsing.
+%In contrast, we target those users who need assistance in Web browsing, therefore speed in browsing may not be a frequent issue.
+%Since adding more levels to the tree can increase the time needed for crawling, we suggest that the construction of the tree should only be done in specific directions indicated by user actions.
+%We could, for instance, generate an image representing a 3-level tree and then expand only one leaf which seems to be of interest to the user instead of adding a whole new 4-th level.
+Our system uses a small amount of graphics, therefore rendering the information to the screen does not slow down our real-time system.
+In addition, {\em FastRings} creates a top-down approach that allows Web data to be generated and displayed in real-time.
+Only one level of the tree is needed in order to generate a first representation.
+This representation can be continuously refined by adding detail once new information becomes available.
+
+The {\em response time} and {\em disconnect round trip} parameters established in Section~\ref{sss:crawler}, although necessary in order to make the system real-time, may have a negative effect on the accuracy of the data displayed, depending on how fast the user is analyzing the new information.  If the user is moving too quickly, some pages might be displayed as having no links deriving from them, while, in fact, they are located on slow servers.
+Our system enables users to adjust these time limits and decide whether they want a slower more accurate system or a faster less accurate one.
+
+\section{Synchronization}
+\label{se:synch}
+
+%In order to decrease the user's cognitive load, we integrate the browsing and visualization together synchronized in the same interface.
+When a link in a Web page is hovered over, if the link exists in the visualization, then the location of the link is advertised to the user.
+Web pages are also loaded in the browser when selected from the visualization.
+
+The user can change also interact with the information in the visualization by selecting links in the Web browser.
+If a child is selected via the browser and does not exist in the visualization, the visualization and crawling will completely restart at this new Web page,
+otherwise that child (Web page) will be transitioned to the focus as described in Section~\ref{se:animation}.
+This is performed as a smooth animation in order to preserve the user's mental map.
+%The refocusing functionality establishes the view navigation step of interactive visualization~\cite{w-00}.
+After the refocusing is complete, the Web page that the new focus node represents is loaded by our browser.
+This creates the synchronization characteristic of {\em WebGPS}.
+%In Section~\ref{se:implementation}, we discuss how we synchronized the Web browser and visualization.
+The Web browser and visualization object each have access to certain functionality within each other.
+In order to maintain synchronization, when a node in the visualization is selected, our system makes a call to the method that loads a new page in the Web browser with the selected Web page's address as a parameter.
+Furthermore, when a link is selected in the Web browser, our system makes a call to its associating method that changes the focus of the visualization with the link's address as a parameter.
+The {\em HTMLFrameHyperlinkEvent} allows the system to realize when a link in the Web browser is hovered, and one property of the event is the address of the link.  Hence, we have designed {\em WebGPS}, that whenever this event occurs, to find the Web page in the visualization, and advertise its location to the user.
+
+\remove{
+\section{Implementation Details}
+\label{se:implementation}
+
+We implemented the Web application of our techniques in Java 5.0 on the Windows platform, in an object-oriented fashion.
+The Web browser and visualization are both individual objects in the design of our system.
+The user interface of the Web browser is created using the built-in Java Swing Toolkit.
+The displaying of Web pages is handled by the {\em HTMLDocument} class, and the interaction within the links in the Web page is controlled by the {\em HTMLFrameHyperlinkEvent} class.
+Back and forward functionality is controlled by a queuing structure that maintains a record of browsing history.
+The user interface of the visualization is also created using Java Swing.
+We use Java2D for all the graphics generated within the visualization.
+In addition, we use the Java AWT Event Toolkit to handle the user interaction with the visualization.
+
+The Web browser and visualization object each have access to certain functionality within each other.
+In order to maintain synchronization, when a node in the visualization is selected, our system makes a call to the method that loads a new page in the Web browser with the selected Web page's address as a parameter.
+Furthermore, when a link is selected in the Web browser, our system makes a call to its associating method that changes the focus of the visualization with the link's address as a parameter.
+The {\em HTMLFrameHyperlinkEvent} allows the system to realize when a link in the Web browser is hovered, and one property of the event is the address of the link.  Hence, we have designed {\em WebGPS}, that whenever this event occurs, to find the Web page in the visualization, and advertise its location to the user.
+Lastly, we use Java's multi-threading capabilities to control the process of retrieving information, rendering information, displaying Web pages, and animating the navigational technique.
+}
+
+\section{Drawbacks of Other Approaches}
+\label{se:other}
+
+As mentioned in Section~\ref{se:intro}, a wide-range of approaches have been developed to visually represent Web data.  We have reviewed technical aspects and established drawbacks of other approaches.
+The result of these investigations is found below.
+
+%\subsection{Technical Analysis and Drawbacks}
+%\label{sse:tech_anal}
+%{\em Pad++}~\cite{b96} is a zoomable web browser that visualizes the structure of the WWW.  The nodes of the tree-based visualization are thumbnails of the Web page.  Pad++ institutes focus+context by allowing other Web pages to be in view while there is a specific Web page zoomed in as the focus.
+{\em Pad++}~\cite{b96} lacks the ability to show which Web pages have already been visited and Web pages that will arise in the future.
+In addition, Pad++ does not make efficient usage of the screen space.
+% we address these shortcomings by providing a method for the user to see what pages have been visited within the visualization and a multi-layered hierarchical visualization, which can be used to investigate Web pages that derive out of links within a particular Web page without having to click the links via the Web browser (Web pages that exist 2+ layers within a particular Web page.)
+
+%{\em Hy+} is a method used to visualize the portion of the WWW explored during a browsing session.
+%Hy+ a graph to represent the relationships between Web pages in a given portion of the WWW.
+{\em Hy+}~\cite{hmv-95} does not make efficient usage of the screen space.  Another drawback is when a user clicks the "Back" and "Forward" button in the Web browser, the edge in the visualization representing this action is omitted.  Omitting this action fails to answer the "where have I been?" question.
+
+%{\em Navigational View Builder}~\cite{mf-95} is a tool which allows the user to interactively create useful visualizations of the information space.
+%It uses binding, clustering, filtering, and hierarchization to form effective views of the WWW.
+{\em Navigational View Builder}~\cite{mf-95} uses a database-oriented hypermedia system, which over time becomes out-of-date.
+Also, it does not make efficient use of space.
+% our solution addresses this issue by visualizing the WWW in real-time. 
+
+%{\em Narcissus}~\cite{hdwb95} produces a 3D graph-like representation of the WWW.  Occlusion is automatically reduced through the metaphor of attractive and repulsive forces.  Web pages (nodes) exert repulsive forces on each other, whereas the links between them lead to attractive forces.  The use of forces leads the Web pages to be organized into clusters.  Drawbacks of Narcissus are in its application of a translucent surface to remove most of the detail of cluster, which hides Web pages, its lack of labels, and skewed representation of Web page relationships.
+%We address all three of these drawbacks by not including occlusive graphics in the visualization, implementing an overlap avoiding labeling scheme, and using an easy to use {\bf [ADD REF TO USER STUDY]} tree-based drawing algorithm to represent the WWW. 
+
+%{\em HyperSpace}~\cite{wdbh-95} is a prototype WWW visualizer that can display the organization of areas of the Web.
+%HyperSpace structures the information not according to geographical location, but according to user-defined structure.
+%Each page in the Web is represented as a sphere, and the links from one page to another are represented as links between the spheres.
+%The spheres are located in a 3D virtual reality environment system.
+{\em HyperSpace}~\cite{wdbh-95} uses an adapted browser and separate program to extract links from visited pages.  Other drawbacks of HyperSpace are that the links and sphere nodes are heavily occluded, browsing history is not tracked, and the system is not synchronized with a Web browser.
+
+%{\em Natto}~\cite{sm97} visualizes a number Web pages in a graph structure.
+%Natto's initial node/link graph is distributed on a flat horizontal.
+%The placement of the nodes is dictated by attributes of the Web page (e.g. its size, title, number of images) which are mapped to the two-axis of the place.
+According to the technical survey by Benford et al. \cite{survey-99}, {\em Natto}~\cite{sm97}  has two shortcomings: limits numbers of nodes that may comfortably occupy the flat plane (occlusion issue) and the range of pages is fixed.
+%Our solution addresses these issues by using a non-occlusive drawing algorithm and allowing the user to traverse deep into the WWW by crawling the Web and updating the visualization as new pages are browsed in real-time.
+
+%{\em Ptolomaeus}~\cite{blv98} helps users deal with the complexity of Web sites with visualizing Web maps.
+%Ptolomaeus uses a tree-based represent of Web pages to reveal how Web pages are related.
+%The user has the ability to assign how many Web pages and levels in the WWW appear in the visualization.
+{\em Ptolomaeus}~\cite{blv98} shows only the Web pages that appear in the visualization after the Web crawler completes the Web page retrieval process.
+Also, another drawback of Ptolomaeus is in its inefficient use of space.
+%Our solution addresses this drawback by an area-efficient tree-based drawing algorithm and non-occlusive intelligently located node labeling system.
+
+%{\em MAPA}~\cite{dk98} extracts a hierarchical structure from an arbitrary Website, with some minimal user assistance and creates an interactive map of that Website that can be used for orientation and navigation
+%MAPA uses cards to represent Web pages.
+%The cards are spatially arranged and color is used to represent different levels in the hierarchy.
+%The cards representing Web pages deriving out of a "parent" Web page are located in a single file line behind the parent card.
+{\em MAPA}~\cite{dk98} uses labels and cards to represent the WWW and the information quickly becomes occluded.
+Also, MAPA is not dually synchronized with a Web browser (does not affect visualization) and all the information is stored in a database, therefore is limited.
+%We address the synchronization shortcoming by creating our own Web browser that has the ability to transition the Web visualization to the new focus as Web pages are visited, as well as when a user is hovered over a link in the Web browser that Web page in the visualization is advertised.
+
+%{\em Disk Trees}~\cite{cpmpg-98} is used to represent a discrete time slice of the Web ecology.
+%Disk Trees uses a circular layout and each successive circle denotes levels in the tree.
+%The layout algorithm makes two passes through the tree to guarantee enough space is allocated per node.
+{\em Disk Trees}~\cite{cpmpg-98} uses many overlaying linking edges that occlude information.
+Another drawback of Disk Trees is that it is a bottom-up algorithm;  the whole tree needs to be processed before displaying to the user.
+%Our solution addresses this shortcoming by only needing two levels of the tree before displaying the visualization.  Therefore it expedites the process of presenting the regular Internet user with information to browse, which allows the visualization to meet the demands of being real-time.  Furthermore, it provides the regular Internet user with a method to make sense of information during the current browsing session; not after the fact.
+
+%{\em VISVIP}~\cite{cs-99} visualizes the hierarchical structure of a Website and the paths the users take through that Website.
+%Pages are represented by boxes, and the connections between pages are directed edges.
+%Color is used to identify different types of information.
+%VISVIP uses dotted columns over top of each box to represent how much time the user spent at a specific page.
+{\em VISVIP}~\cite{cs-99} makes poor use of space, contains many edge crossings, and label boxes occlude information. 
+
+%{\em Dome Trees}~\cite{cpp-00} is similar to Disk Trees, but uses only 3/4 of the disk and the disk is extruded along the Z dimension.
+{\em Dome Trees}~\cite{cpp-00} is similar to Disk Trees, hence, the shortcoming of being a bottom-up algorithm is still an issue.
+
+%{\em BrowsingGraph/BrowsingIcons}~\cite{m-00} provides nine differently motivated contexts of Web pages.
+%Each supports orientation and navigation according to the context.
+%The user is provided information about already visited Web pages, related Web pages, and defines "neighborhoods" of Web pages in terms of hyperlinks.
+%Moreover, the system has the ability to interact with the Web browser.
+{\em BrowsingGraph/BrowsingIcons}~\cite{m-00} uses a Web browser that is not completely integrated within the system.
+The algorithm used to draw the graph, which represents how the Web pages are related, is not space-efficient; much whitespace in the drawing area is unused.
+
+%{\em XML3D}~\cite{rcmc-00} uses a 3D hyperbolic space to represent the WWW.
+%XML3D is designed in a typical graph fashion; nodes represents Web pages and the links between them depict their relations.
+%Within the interface of XML3D there are text lists of additional information about the visualization.
+%The lists are selectable and contain information such as search history, parents, children, and siblings of the focused node.
+{\em XML3D}~\cite{rcmc-00} contains node/label occlusion and the distant features within the 3D space are distorted.
+Furthermore, long connecting edges in a graph are harder to follow than shorter edges~\cite{dett-gd-99}.
+Hence, another drawback of XML3D is its use of lengthy intersecting connecting edges.
+%Our solution addresses the issue of distant distortion through easier to interpret 2D distant features.  Long connecting edges in a graph are harder to follow than shorter edges~\cite{dett-gd-99}; hence our solution spatially aligns nodes close to their parent and children nodes, therefore shorter edges are incorporated.
+
+%{\em HotSauce}~\cite{g02} is fly-through interface for navigating the WWW.
+%HotSauce organizes the information spatially in order to improve the regular Internet users navigational abilities.
+%Web pages are represented by rectangular blocks that are labeled with the Web page's title.
+%It uses color and depth within the 3D layout to depict different viewing levels into the WWW
+%HotSause supports the selection of labels, and uses a smooth zooming mechanism to refocus the visualization.
+According to the Atlas of Cyberspace~\cite{atlas}, drawbacks of {\em HotSauce}~\cite{g02} are its difficulties in finding pages, and once immersed in the space and surrounded by blocks, it is easy to become disoriented.
+Another drawback with HotSauce is the frequent occlusion of labels.
+
+
+%{\em MemoSpace}~\cite{wls05} is a 3D visualization of browsing histories that can be interactively explored in a separate navigation window besides the Web browser. 
+%MemoSpace uses color to mark Web pages that have been already visited.
+%Users of MemoSpace can assign labels containing the Web page's address to specific nodes.
+%Complementary to the 3D functionality, MemoSpace has 2D capabilities as well.
+%A 2D tree-like visualization can be selected, when desired by user, to emphasize the order in which Web pages appear in the WWW.
+{\em MemoSpace}~\cite{wls05}  does not make efficient usage of the screen space, and labels denoting a Web page's address are large in size and occlusive.
+
+\remove{
+{\em Grokker}~\cite{grokker}, developed by Groxis Inc., is a web-based tool used to visualize Web data.
+Grokker allows user to enter federated searches and organizes the results in two ways: outline view and map view.  The map view uses a radial layout algorithm similar to the one used in {\em WebGPS}.  One key difference resides in how the Web data is organized; Grokker organizes based on content relationships, our approach creates a hierarchy of Web pages based on their location in the WWW.  Another difference is Grokker visualizes a broad range of pages stemming from the user's query, in contrast, {\em WebGPS} visualizes a particular area in the WWW starting from a user-specified Web page.
+Grokker uses a similar layout strategy to original {\em Rings}, which puts time constraints on displaying the information.
+}
+%\subsection{Our Solutions to Drawbacks of Other Approaches}
+%\label{sse:solutions}
+
+%In section~\ref{sse:tech_anal} we briefly described the technical aspects of other approaches and presented drawbacks to each approach.  Our solution addresses all the drawbacks, previously mentioned.  More specifically, our solution addresses the lack of showing which Web pages have been visited and which Web pages will arise in the future, by providing a method for the user to see what pages have been visited within the visualization and a multi-layered hierarchical visualization, which can be used to investigate Web pages that derive out of links within a particular Web page without having to click the links via the Web browser (Web pages that exist 2+ layers within a particular Web page.)  The drawback of inefficient use of space is addressed by our area-efficient tree-based drawing algorithm.  The drawback of Web browsing and visualization synchronization is addressed by creating our own Web browser that has the ability to transition the Web visualization to the new focus as Web pages are visited, as well as when a user hovers over a link in the Web browser that Web page in the visualization is advertised.  The drawback of storing Web data in databases is addressed with our real-time Web crawling integrated system, which removes limitation of the information's age and how deep user can browse.   The drawbacks of node/edge occlusion is addressed by implementing an overlap avoiding labeling scheme, and using an easy to use tree-based drawing algorithm to represent the WWW.  The drawback of using lengthy connecting edges is addressed by spatially aligning nodes close to their parent and children nodes.  The drawbacks of using bottom-up drawing algorithms is addressed by only needing two levels of the tree before displaying the visualization, therefore it expedites the process of presenting the regular Internet user with information to browse.  Furthermore, it provides the regular Internet user with a method to make sense of information during the current browsing session; not after the fact. 
+ 
+%{\em WebTracer}~\cite{webtracer} uses two separate programs the 'Spider' and the 'Visualizer'.
+%The Spider visits Websites and produces map files containing information about their internal hypertext links.
+%The Visualizer allows these maps to be viewed in 3D and represents the pages and links as an abstract molecular structure.
+{\em WebTracer}~\cite{webtracer} uses a system in which Web crawling and visualization are separate processes.
+Other drawbacks are: the user can click on an atom (Web page) and the Web page appears in the computer's default Web browser, it does not make efficient usage of the screen space, and it contains many edge intersections, which makes it harder to understand the Web pages' relationships.
+A comparison between our solution and WebTracer was performed.
+Both our solution and WebTracer were used on the same computer, using the same Internet speed, and starting from the same Web page.
+The results of our solution compared to WebTracer were as follows:
+
+\begin{itemize}
+
+\item {{\em Computer Memory (RAM)} - 27\% more efficient.}
+
+\item {{\em Computer processing (CPU)} - 50\% more efficient.}
+
+\item {{\em Web crawling speed} - 63\% faster.}
+
+\end{itemize}
+
+\section{Users}
+\label{se:users}
+
+The users of {\em WebGPS} are the regular Internet users and Web designers.  We characterize a regular Internet user as one who uses the WWW as a resource for 
+obtaining information by browsing different Web pages.  
+We characterize Web designers as those who create Web pages for regular Internet users.  
+In this section we will explain how our system serves these two individual needs.
+
+It is easy for regular Internet users to browse the WWW, traversing from link to link, to become disoriented within the area of the WWW they are viewing.  
+Frequently, the regular Internet user is unaware of how Web pages of interest are related, and what Web pages could appear in the future. 
+Moreover, the regular Internet user is mostly interested in viewing the contents of a Web page.
+%Our system presents the user with a visualization of the area of the WWW they are viewing, which helps the user find interesting Web links faster.  
+%This capability was developed strictly to aid the regular Internet user in creating a mental map of the particular area of the WWW while not procuring the fundamentals of Web browsing.  
+The regular Internet users represent the majority users of our system.
+
+To the Web designer, {\em WebGPS} serves a different purpose.  The Web designer is interested in knowing how regular Internet user traverses their Web pages.
+In addition, the Web designer is concerned with how her Web pages are structured.  
+Our system could better equip the the Web designer to develop a Website that a regular Internet user can follow.  
+For example, the system can be used to illustrate poor Website design, such as Web cycles or duplicate links.  
+Web cycles occur when a link on a particular Web page is directed to itself or its parent. 
+Duplicate links exist when a Web page has more than one link which point to the same web address.  
+By not allowing duplicate links (checking the {\em allow duplicates} parameter), Web cycles can be visually detected through the empty pages: an empty page represents either a dead link or a duplicate (hence a cycle).
+%Furthermore, in the methodologies of Software Engineering, quality software design includes high cohesion~\cite{s-04}.  
+%A Web designer can use the visualization to see if she targeted this attribute.  
+%A Web designer would check for high cohesion by investigating the visualization, validating that each Web page contains a number of links.  
+%High cohesion could reduce the number of unexpected dead-ends in a developer's Web design.
+%Another major problem while browsing the WWW is dead link encounters~\cite{pr-98}.
+%A Web designer could use our system to find dead links in seconds.
+%Non-responsive links can be reported to the designer via the Web server responsiveness functionality of the Web crawler.
+%Dead links are Web links which take the regular Internet user to a Web page with no data.  
+%This scenario would become evident when a link to a node (Web page) in the visualization existed, but as an empty circle.
+The Web designer could analyze the placement of Web pages within the visualization, and gain information about which Web pages appear first, and are the most responsive, because they will appear in the outermost ring.
+Furthermore, the Web designer can put the most important Web pages in the outermost ring by placing their links in the beginning of the HTML source code.
+Also, it is important that links within the same Web page are related.  Within the visualization, the Web designer can use the advertising of each pages' description to verify that adjacent links are indeed associated.
+
+\section{User Study}
+\label{se:user_study}
+
+%\subsection{Participants}
+
+%Twenty subjects voluntarily participated in our study in exchange for a chance at a monetary prize drawing.
+Twenty subjects voluntarily participated in our study to evaluate the effectiveness of {\em WebGPS} in exchange for a chance at a monetary prize drawing.
+We wanted to capture results from two technical levels, therefore we recruited ten non-technical subjects and ten technical subjects.
+We consider a non-technical subject as a person who has no prior background in software development and technical as those who had background in software development.
+Both types of subjects were experienced in browsing the WWW.
+%In agreement with our university, we chose to implement the user study with subject anonymity.
+%The only information of the subject recorded was user type and sex.
+The majority of subjects were undergraduate students, but a few graduate students and non-student subjects existed.
+
+
+\begin{table}[t]
+\centering {
+\begin{tabular}{|c|l|} \hline
+Task&Description\\ \hline
+0&Starting from {\em http://www.graphviz.org}\\ \hline
+1&Find and select node labeled {\em Bugs}\\ \hline
+2&Find and select node labeled {\em Gallery}\\ \hline
+3&Find where you came from and go back\\ \hline
+4&Find and select node labeled {\em Theory}\\ \hline
+5&Go way back to root\\ \hline
+6&Find and select node labeled {\em Pretty diagrams}\\ \hline
+7&Go way back to root\\ \hline
+8&Find and select node labeled {\em WebDot}\\ \hline
+9&Find and select node labeled {\em Apache}\\ \hline
+10&Go way back to root\\ \hline
+11&Do you know where you have been?\\ \hline
+\end{tabular}
+\caption{Steps of first training assignment.}
+}
+\label{table:assign1}
+\end{table}
+
+\begin{table}[t]
+\centering {
+\begin{tabular}{|c|l|} \hline
+Task&Description\\ \hline
+0&Starting from {\em http://www.graphviz.org}\\ \hline
+1&Hover over different links in Web browser\\ \hline
+2&Find and select the link named {\em Credits}\\ \hline
+3&Hover over different links again\\ \hline
+4&Click the Back button\\ \hline
+5&Do you see the synchronization?\\ \hline
+\end{tabular}
+\caption{Steps of second training assignment.}
+}
+\label{table:assign2}
+\end{table}
+
+\subsection{Procedure}
+
+Each subject participated in our study on a one-on-one basis with the user study proctor.  The user study proctor was one of the authors of this paper.
+First, the subject was given a half page description of what he/she will do in our study.
+After reading the description, if the subject had questions then they were discussed, otherwise the proctor explained the "lost in cyberspace" problem, how to use the system, and how we propose our system to be a solution.  This explanation lasted approximately 15 minutes.  After the explanation and background, the subject took part in two training assignments.
+Each training assignment lasted approximately 15 minutes.
+During the first training assignment, the subject was asked to find specific Web pages in the visualization, select them, and later asked to return to some previously visited location, thus simulating procedures performed while casually browsing.
+The tasks of training assignment 1 are detailed in Table~1.
+%%The purpose of the first training assignment focused on the subject being able to locate and select nodes, follow the navigation strategy, use the browsing history advertisement to answer where the subject has been and how they got there, and understand how the Web browser is synchronized to the visualization.
+The second training assignment was focused on revealing how the Web browser affected the Web visualization.
+In the second training task the subject was asked to hover over links in a specific Web page within the Web browser to demonstrate how the node that represents the page is advertised in the visualization.
+In addition, the subject was asked to click specific links, which exposed the subject to the focus change procedure of the visualization, when a link is selected, as well as provide a visual representation of where the subject "moved".
+The tasks of training assignment 2 are detailed in Table~2.
+
+Similar to the experimental study on Web visualizations tools of~\cite{hh-01}, two different methods of browsing were used in our study: a regular Web browser and our system, {\em WebGPS}.
+While using our solution, the subject could use the associated Web browser to obtain more detail, but selections were only allowed through the visualization.
+%When using the regular Web browser, the subject was not allowed to perform Web search queries, nor regular find functionality within a Web page, but allowed to use the back and forward button.When using the regular Web browser, the subject was not allowed to perform Web search queries, nor regular find functionality within a Web page, but allowed to use the back and forward button.
+The scenarios were selected to cover different real-world situations.
+In Scenario 1, the user navigates through unfamiliar Web pages with unfamiliar structures, containing a non-trivial amount of information to search.
+In Scenario 2, the user navigates through unfamiliar Web pages with familiar structures, for some, containing a large amount of information to search.
+In Scenario 3, the user navigates through familiar Web pages with familiar structures, containing a large amount of information to search.
+In Scenario 4, the user navigates through unfamiliar Web pages with unfamiliar structures, containing a small amount of information to search.
+Each scenario was timed, and each subject had a maximum time of 10 minutes to complete each scenario.
+Each subject used a regular Web browser for two scenarios and our solution for the other two.
+Also, the starting scenario for each subject switched each time.  For example, if {\em Subject N} started with scenario 1 using the regular Web browser, our solution would be used for scenario 2, regular Web browser would be used for scenario 3, and our solution would be used for scenario 4, then {\em Subject N+1} would start with scenario 2 using the regular Web browser, our solution would be used for scenario 1, regular Web browser would be used for scenario 4, and our solution would be used for scenario 3.
+The purpose for implementing the user study in this manner is to keep the order of browsing type consistent, and because one subject can not duplicate a scenario using both browsing types; the subject already knows the answer.
+The starting point and target destination of each scenario are as follows:
+%Scenario 1 started from the International World Wide Web Conference's Call for Papers Web page, and had the subjects find the (ACM) Web page where women are the main topic.
+%Scenario 2 started from the University of Calgary home-page, and had the subjects find the Web page about on-campus student employment opportunities.
+%Scenario 3 started from the Rowan University home-page, and had the subjects find the Web page that contains information about Class Schedules/Registration Schedule.
+%Scenario 4 started from the Transportation Security Administration (TSA) home-page, and had the subjects find the Web page that contains information about bringing baby formula onto aircraft during flight.
+
+
+\begin{itemize}
+
+\item {\em Scenario 1}: Starting from the International World Wide Web Conference's Call for Papers Web page, find the (ACM) Web page where women are the main topic.
+
+\item {\em Scenario 2}: Starting from the University of Calgary home-page, find the Web page about on-campus student employment opportunities.
+
+\item {\em Scenario 3}: Starting from the Rowan University home-page, find the Web page that contains information about Class Schedules/Registration Schedule.
+
+\item {\em Scenario 4}: Starting from the Transportation Security Administration (TSA) home-page, find the Web page that contains information about bringing baby formula onto aircraft during flight.
+
+\end{itemize}
+
+%The rationale behind choosing scenario 1 and 2 is the affiliation with WWW2007, scenario 3 for its page type similarities to scenario 2, and scenario 4 for its difference
+%from the other scenarios.
+%When using the regular Web browser, the subject was not allowed to perform Web search queries, nor regular find functionality within a Web page, but allowed to use the back and forward button.
+%The goal was to simulate the process of "casual" browsing.
+
+After a subject completed both training tasks and the four scenarios, they were asked to complete an eight question subjective evaluation sheet.
+In addition, the evaluation included an area where the subject can make specific remarks such as compliments, complaints, suggestions, and concerns.
+The subjects were given as much time as they needed to complete the evaluation.
+The proctor of the user study was responsible for processing and archiving the data.
+
+\subsection{Timed Results}
+\label{user_study_results}
+
+\begin{table}[t]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|} \hline
+
+& &\multicolumn{2}{|c|}{{\em WebGPS}}&\multicolumn{2}{|c|}{Web browser} & \\\cline{3-6}
+User Type&Scenario&Time (secs)&Completion \%&Time (secs)&Completion \%&Improvement \%\\\hline
+
+Technical&1&118&100\%&199&60\%&67\%\\\hline
+Non-technical&1&200&100\%&372&40\%&86\%\\\hline
+Technical&2&290&80\%&146&100\%&None\\\hline
+Non-technical&2&221&100\%&290&80\%&31\%\\\hline
+Technical&3&105&100\%&83&100\%&None\\\hline
+Non-technical&3&65&100\%&114&100\%&75\%\\\hline
+Technical&4&305&100\%&34&100\%&None\\\hline
+Non-technical&4&235&100\%&24&100\%&None\\\hline
+
+\end{tabular}
+\end{center}
+\caption{Time results and scenario completion rate for all subjects using both {\em WebGPS} and a regular Web browser on all four scenarios.}
+\label{table:time}
+\end{table}
+
+Since this paper presents our proposed solution to the "lost in cyberspace" problem, it was essential we prove this conjecture.
+The time results and scenario completion rate for all subjects performing each scenario using our solution and a regular Web browser are presented in Table~\ref{table:time}.
+
+{\em WebGPS} was most effective when subjects were browsing through a moderate amount of unfamiliar information and structures.
+In fact, 60\% of non-technical subjects and 40\% of technical subjects could not complete the task in such a case, when using a regular Web browser.
+On the other hand, all subjects were able to complete the task using {\em WebGPS}.
+As expected, our system was least effective when subjects were asked to locate readily available information.
+We also found, when browsing familiar structures, technical subjects' performance is similar for both our system and regular Web browser.
+The user study shows that non-technical users locate information faster using our solution, when browsing through non-trivial information spaces.
+
+
+
+An overall Analysis of Variance (ANOVA) comparing which browsing method was used, which scenario was performed, and which type of subject performed the tasks was implemented on the time results.
+The case when non-technical subjects used the regular Web browser on Scenario 1 was omitted from the overall ANOVA, because three subjects could not complete the task, therefore only two data points remained for this case.
+The overall ANOVA proved to reject the null hypothesis that no difference between the means exist; $d.f.\ error=55$, $F=3.58$, $P<0.05$.
+
+\subsection{Subjective Ratings}
+\label{user_study_ratings}
+
+After completing all four scenarios, the subjects were asked to fill out an evaluation.  The ratings for each question were on a 7-point scale; 1=lowest, 7=highest.
+With the understanding of the "lost in cyberspace" problem the subjects gained through the explanation by the proctor, the subjects were asked to rate the effectiveness of our solution.
+Each question was rated as follows:
+
+\begin{itemize} 
+
+\item {\em Question 1}: The average rating for the effectiveness of the interactive animation within the visualization to provide the subject with a better understanding of "where they are going" was 5.7.
+
+\item {\em Question 2}: The average rating for the effectiveness of the browsing history advertisement to provide the subject with a method of seeing "where they came from" and "how did they get there" was 6.15.
+
+\item {\em Question 3}: The average rating for the effectiveness of the integration and synchronization of the Web browser and visualization was 6.25.
+
+\item {\em Question 4}: Subjects agreed with an average rating of 5.85 that the tree-based structure of representing Web data was easy to follow.
+
+\item {\em Question 5}: Subjects agreed with an average rating of 4.3 that the speed of transitioning to a new Web page (navigation strategy) and the time it took to present new data was desirable.
+
+\item {\em Question 6}: Subjects agreed with an average rating of 5.8 that labeling the nodes helped them understand what each node represented.
+
+\item {\em Question 7}: Subjects agreed with an average rating of 5.75 that the labels did not cover nodes in a way that made it difficult to see the Web pages they represented.
+
+\item {\em Question 8}: The average rating of the overall effectiveness of {\em WebGPS} in solving the "lost in cyberspace" problem was 5.4.
+
+\end{itemize}
+
+Overall, the feedback from the subjects affirms that {\em WebGPS} was helpful in solving the "lost in cyberspace" problem.
+The feedback also reveals that the system was effective with minimal training, therefore the transition from understanding what our solution provides to actually using it is short.
+The speed of the transitional animation within the visualization scored moderately, therefore to meet the requests of the subjects we plan on speeding up the animation by decreasing the number of frames during the transition. 
+
+\section{New Features}
+\label{se:new_features}
+
+During the user study we noticed the need for certain features.
+After completing the evaluation questionnaire, the subjects provided feedback in a free-form textbox.
+We reviewed the feedback from the subjects and our own observations, and implemented additional features to the system, which are being presented next.
+
+\subsection{Variable Depth}
+\label{ss:var_depth}
+
+Initially, our visualization provided only two levels from the main Web page (one level into the future, i.e. the links inside the Web pages available at the main Web page).
+We increased the scalability of {\em WebGPS} by providing the {\em max depth} parameter (See Figure~\ref{fig_paramOpts}), which the user can use to control the number of levels into the future by halting the crawler at a certain depth.
+In order to observe the effectiveness of varying this parameter, we generated visualizations with {\em max depth} of three (See Figure~\ref{fig_3levels}) and {\em max depth} of four (See Figure~\ref{fig_4levels}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=6.25in]{webgps_3levels}
+\caption{{\em FastRings} with {\em max depth} of three and $2457$ nodes (links) total.}
+\label{fig_3levels}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=6.25in]{webgps_4levelsPS}
+\caption{{\em FastRings} with {\em max depth} of four and $2832$ nodes (links) total.}
+\label{fig_4levels}
+\end{figure}
+
+A dynamic variation of the depth can also be employed by automatically choosing the {\em max depth} based on the number of links and the size of the visualization window.
+For instance, if there are not too many links and/or the visualization window is large, the depth could automatically be increased, thus maximizing the amount of information being presented.
+On the other hand, if there are many links and/or the visualization window is small, the depth could automatically be decreased.
+
+\subsection{Color Coding}
+\label{ss:color_coding}
+
+The diversity of the information on the WWW can be categorized in many ways by designers.
+We can capture different categorizations in our visualization by implementing a color coding scheme, in which each category is assigned a different color.
+
+\begin{equation}
+ Luminance = (0.30*Red) + (0.59*Green) + (0.11*Blue)
+\end{equation}
+\label{lum_eq}
+
+Different colors are chosen based on the Luminance Equation (2), taking into consideration the default white background and dark-blue node color.
+In the Luminance Equation, {\em Red}, {\em Green}, and {\em Blue} are a particular color's RGB values, each with values between $0.0$ and $1.0$ (i.e. Brown equals {\em Red}=$0.59$, {\em Green}=$0.11$, and {\em Blue}=$0.08$.)
+For good contrast, the difference between the luminance of the background and foreground colors should be greater than 0.40.
+The higher the difference, the more readable and easier to distinguish the visualization will be.
+In general, we choose the colors uniformly distributed between the difference of the default luminance value and $0.40$.
+
+For instance, links in a Web page can be either text-based or image-based.
+Certain users may be interested in distinguishing between these two types of links.
+Our color coding scheme differentiates the two types of links: we use dark-blue for nodes denoting text-based links and orange, which was chosen based on the Luminance Equation (2), for nodes denoting images-based links (See Figure~\ref{fig_color_nodes}).
+
+We could also use the color coding scheme to allow the user to distinguish between intra and inter-domain links.
+Nodes in the same domain as the main Web page are assigned the same color and nodes that link to other domains are assigned other colors using the Luminance Equation.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=5.0in]{colored_imagesBETTER}
+\caption{Color coding scheme for two categories: text-based links (dark-blue) and image-based links (orange).}
+\label{fig_color_nodes}
+\end{figure}
+
+\subsection{Empty Pages}
+\label{ss:empty_pages}
+
+One drawback of our choice for visualization engine ({\em FastRings}) is that, in case of Web pages with dead links or duplicates, those would use an unjustified amount of space.
+Hence, we are developing strategies that would free up space by dismissing or providing less space to these empty pages.
+One idea we are contemplating is, once empty pages are known, we group them inside a dummy node labeled "Empty Pages".
+This new node will be distinguished from the other nodes by not connecting it to the root through an edge (See Figure~\ref{fig_dummy}).
+We plan on experimenting with such techniques, within the constraints of the real-time aspect of our system.
+By employing such a strategy, we can provide more space to display existing information in greater detail.
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=5.0in]{dummy_nodes}
+\caption{Our current strategy of locating empty pages in one dummy node. Here, the dummy node is in the bottom-right part of the visualization.
+The visualization contains $811$ nodes (links) total.}
+\label{fig_dummy}
+\end{figure}
+
+\subsection{Multi-level Navigation}
+\label{ss:multi-level}
+
+Initially, the user could only select nodes from our visualization within one level of the current Web page.
+We implemented a multi-level navigation strategy by generating an automated sequence of the current navigation steps described in Section~\ref{se:animation}.
+This new strategy has three types of stages:
+
+\begin{itemize}
+
+\item {\em Initial visualization}: the node into the future is being selected by the user.
+
+\item {\em Intermediate visualizations}: step by step progress from selecting the node into the future to reaching it.
+
+\item {\em Final visualization}: the node into the future is now the focus, and its corresponding Web page is loaded in the browser.
+
+\end{itemize}
+
+For instance, in Figure~\ref{fig_multi-level}(a), the user is selecting a node one level into the future.
+The intermediate visualization, in Figure~\ref{fig_multi-level}(b), displays the child of the root (i.e. the parent of the node into the future) of Figure~\ref{fig_multi-level}(a) as the focus.
+Finally, the node into the future is brought to focus in Figure~\ref{fig_multi-level}(c).
+
+
+\begin{figure}[tb]
+\centering
+\includegraphics[width=5.0in]{select_2levelsBETTER}
+\caption{An example of multi-level navigation: (a) Initial visualization: a grandchild is being selected, (b) Intermediate visualization: the child of the root (i.e. the parent of the selected grandchild) of (a) is the focus, 
+(c) Final visualization: the grandchild of (a) is the final focus.}
+\label{fig_multi-level}
+\end{figure}
+
+\subsection{Visualization Favorites}
+\label{ss:viz_faves}
+
+While browsing the WWW there may exist Web pages to which the users may want to return (favorites).
+We implemented a favorites strategy for our visualization: the users can save desirable locations for future selection.
+Once selected, a visualization favorite is automatically navigated to using the technique introduced in Section~\ref{ss:multi-level}.
+
+
+
+
+\section{Conclusion and Future Work}
+\label{se:conc}
+
+
+%Rusu: in conclusion
+%Rusu: we should say something like
+%Rusu: while in this paper we used our layout and interaction paradigm in the context of Web browsing and design assistance, our technique can be applied in any context portraying information hierarchies.
+%Rusu: refine this a bit
+%Rusu: we want to make a strong point
+%Confesor: yea
+%Rusu: this is not just a technique for web browsing
+%Rusu: but also we sell it as a new technique which can be used in the context of any information hierarchy
+%Rusu: like the web
+
+%\begin{figure}[t]
+%\centering
+%\includegraphics[width=6.25in]{webgps_3levels}
+%\caption{FastRings with four levels.}
+%\label{fig_webgps_3levels}
+%\end{figure}
+
+As the size of WWW and the number of Web users increases, so too will the frequency of "lost in cyberspace".
+In this paper we presented a novel method as a viable solution to the "lost in cyberspace" problem, called {\em WebGPS}.
+Our method introduces an innovative combination of features such as real-time synchronization between browsing and visualization, which offers the user the ability to analyze the detail thoroughly while preserving her mental map by keeping the visualization in sight.
+Even though Web pages are generally well organized they are also cluttered with non-relevant information such as images or advertisements.
+Our visualization is not only represented in an aesthetically pleasing manner, but also makes efficient use of space, thus presenting relevant information in a more condensed form.
+This is especially important to the regular Internet users and Web designers, as the amount of data they may need to represent could be very large, and also so that they could navigate and design Websites to suit users' needs more efficiently.
+The visualizing aspect of {\em WebGPS} is fueled by our {\em FastRings} drawing algorithm, which can handle processing and generation of the visualization in real-time.
+We presented the visualization of the WWW in an interactive interface which when applied in our Web browser can be used to browse the Web.
+%In addition, we showed our solution was success in solving the "lost in cyberspace" problem through the subjects' evaluation of our system.
+The user study proved that our solution helped both technical and non-technical subjects find information faster and more efficiently, as well as have a much higher success rate in finding information.
+We discovered that our solution helped non-technical subjects more than technical subjects.
+Our system could also be used as a complement to Google searches. A Google search guides searchers to an unfamiliar Website, which the searcher might need to explore further.
+Furthermore, our system could aid Web designers in developing easy to browse and understand Websites.   
+Our system is sustainable on broadband connections, as well as on dial-up connections, because of limited resources used.
+Our method can be applied to portray any information hierarchy.
+
+%At the current stage, our crawler extracts valid links from each Web page included in the visualization in a sequential fashion.
+%We plan to develop an ``intelligent'' crawler.
+%We will study Web design patterns and build a Web crawler which can detect certain Web pages source and structure, and automatically extract Web pages 
+%based on user's interests.
+In the future, we plan on experimenting with other geometric shapes for nodes (such as rectangles), in a quest to use the available space more effectively.
+We plan on adding a more effective Web browser and improve our Web crawler to process Web pages faster.
+In addition, we intend to exercise our visualization engine with other tree drawing algorithms which meet important aesthetical properties.
+%Lastly, we plan to experiment our technology to devices with small screens, such as cell phones and PDAs, and in 3-dimensional and virtual reality realms.
+%Lastly, we plan to evaluate the system's effectiveness. We will implement a survey, record the findings of this survey, and look for ways 
+%our system can be improved to provide an even better solution to the ``lost in cyberspace'' problem. 
+
+%ACKNOWLEDGMENTS are optional
+%\section{Acknowledgments}
+%Blah bllah blah, who who who?
+
+%
+% The following two commands are all you need in the
+% initial runs of your .tex file to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{plain}
+
+\bibliography{webgps}  % sigproc.bib is the name of the Bibliography in this case
+
+\end{document}

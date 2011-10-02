@@ -1,0 +1,7 @@
+latex webgps.tex
+bibtex webgps
+latex webgps.tex
+latex webgps.tex
+dvips webgps.dvi -o webgps.ps
+ps2pdf -dPDFSETTINGS=/prepress webgps.ps webgps.pdf
+#gv webgps.ps
